@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Login from './pages/Login';
-import Foods from './pages/Foods';
-import Drinks from './pages/Drinks';
+import {
+  Login, Foods, Drinks, DoneRecipes, DrinkDetail, DrinkInProgressDetails,
+  FavoriteRecipes, FoodDetail, FoodInProgressDetails, Profile,
+} from './pages';
 
 function App() {
   return (
@@ -10,14 +11,18 @@ function App() {
       <Switch>
         <Route exact path="/" component={ Login } />
         <Route exact path="/foods" component={ Foods } />
-        <Route exact path="/foods/:id" />
-        <Route exact path="/foods/:id/in-progress" />
+        <Route exact path="/foods/:id" component={ FoodDetail } />
+        <Route exact path="/foods/:id/in-progress" component={ FoodInProgressDetails } />
         <Route exact path="/drinks" component={ Drinks } />
-        <Route exact path="/drinks/:id" />
-        <Route exact path="/drinks/:id/in-progress" />
-        <Route exact path="/done-recipes" />
-        <Route exact path="/favorite-recipes" />
-        <Route exact path="/profile" />
+        <Route exact path="/drinks/:id" component={ DrinkDetail } />
+        <Route
+          exact
+          path="/drinks/:id/in-progress"
+          component={ DrinkInProgressDetails }
+        />
+        <Route exact path="/done-recipes" component={ DoneRecipes } />
+        <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
+        <Route exact path="/profile" component={ Profile } />
       </Switch>
     </BrowserRouter>
   );

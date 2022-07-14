@@ -4,7 +4,7 @@ import Header from '../../components/Header';
 export default function Drinks() {
   return (
     <main className="drinks-page-container">
-      <Header title="Drinks" />
+      <Header title="Drinks" haveSearch />
       <h1>Drinks page</h1>
     </main>
   );
