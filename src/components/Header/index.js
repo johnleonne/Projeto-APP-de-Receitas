@@ -4,6 +4,7 @@ import './Header.css';
 import { useHistory } from 'react-router-dom';
 import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
+import SearchBar from '../SearchBar/SearchBar';
 
 export default function Header({ title, haveSearch }) {
   const history = useHistory();
@@ -39,12 +40,7 @@ export default function Header({ title, haveSearch }) {
         )}
       </div>
       <div className="header-input-container">
-        { isSearchInputVisible && (
-          <input
-            type="text"
-            data-testid="search-input"
-          />
-        )}
+        { isSearchInputVisible && <SearchBar />}
       </div>
     </header>
   );
