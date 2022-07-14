@@ -1,11 +1,13 @@
 import React from 'react';
+import { FavoriteRecipes } from '../pages'
 import { render, screen } from '@testing-library/react';
-import { DoneRecipes } from '../pages';
+
 
 describe('Testes para a página de Favorites Recipes', () => {
   it('Verifica se o header renderiza com as informações corretas', () => {
-    render(<DoneRecipes />);
+    render(<FavoriteRecipes/>);
 
     expect(screen.queryByTestId('header')).toBeTruthy();
   });
 });
+
