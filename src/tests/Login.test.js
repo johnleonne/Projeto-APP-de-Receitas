@@ -1,14 +1,13 @@
 import React from 'react';
-import Login from '../pages/Login';
+import App from '../App';
 import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('Testes para a página de login', () => {
-  beforeEach(() => {
-    render(<Login />);
-  });
-
+  
   it('Testa se as validações dos campos de email funcionam corretamente', () => {
+    render(<App />);
+
     const emailInput = screen.getByTestId('email-input');
     const passwordInput = screen.getByTestId('password-input');
     const loginButton = screen.getByRole('button', { name: /enter/i });
@@ -31,5 +30,10 @@ describe('Testes para a página de login', () => {
     expect(JSON.parse(localStorage.getItem('user'))).toEqual({
       email: 'teste@gmail.com'
     });
+
+    expect(screen.queryByRole('heading', { name: /login/i, level: 1 })).toBeFalsy();
+    expect(screen.queryByTestId('email-input')).toBeFalsy();
+    expect(screen.queryByTestId('password-input')).toBeFalsy();
+    expect(screen.queryByRole('button', { name: /enter/i })).toBeFalsy();
   })
 });

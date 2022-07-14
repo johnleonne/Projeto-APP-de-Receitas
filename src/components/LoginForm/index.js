@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import isEmailValid from '../../utils/isEmailValid';
 
@@ -8,6 +9,7 @@ export default function LoginForm() {
   const [, setUser] = useLocalStorage('user');
   const [, setMealsToken] = useLocalStorage('mealsToken');
   const [, setCocktailsToken] = useLocalStorage('cocktailsToken');
+  const history = useHistory();
 
   function isLoginValid() {
     const minPasswordLength = 6;
@@ -33,6 +35,7 @@ export default function LoginForm() {
     setUser({ email: userEmail });
     setMealsToken(1);
     setCocktailsToken(1);
+    history.push('/foods');
   }
 
   return (
