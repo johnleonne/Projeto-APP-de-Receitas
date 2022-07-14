@@ -1,7 +1,7 @@
 import React from 'react';
-import App from '../App';
 import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import App from '../App';
 
 describe('Testa as validações da página de Login', () => {
   
@@ -28,12 +28,12 @@ describe('Testa as validações da página de Login', () => {
     expect(JSON.parse(localStorage.getItem('mealsToken'))).toBe(1);
     expect(JSON.parse(localStorage.getItem('cocktailsToken'))).toBe(1);
     expect(JSON.parse(localStorage.getItem('user'))).toEqual({
-      email: 'teste@gmail.com'
+      email: 'teste@gmail.com',
     });
 
     expect(screen.queryByRole('heading', { name: /login/i, level: 1 })).toBeFalsy();
     expect(screen.queryByTestId('email-input')).toBeFalsy();
     expect(screen.queryByTestId('password-input')).toBeFalsy();
     expect(screen.queryByRole('button', { name: /enter/i })).toBeFalsy();
-  })
+  });
 });
