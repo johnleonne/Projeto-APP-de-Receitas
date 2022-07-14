@@ -3,7 +3,8 @@ import { screen, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 
-describe('Testes para a página de login', () => {
+describe('Testa as validações da página de Login', () => {
+  
   it('Testa se as validações dos campos de email funcionam corretamente', () => {
     render(<App />);
 
