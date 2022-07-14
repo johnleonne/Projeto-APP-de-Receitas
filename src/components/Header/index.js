@@ -1,16 +1,51 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './Header.css';
+import { useHistory } from 'react-router-dom';
 import profileIcon from '../../images/profileIcon.svg';
 import searchIcon from '../../images/searchIcon.svg';
 
 export default function Header({ title, haveSearch }) {
+  const history = useHistory();
+  const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);
+
+  function handleProfileClick() {
+    history.push('/profile');
+  }
+
   return (
     <header data-testid="header">
-      <img src={ profileIcon } alt="profile icon" data-testid="profile-top-btn" />
-      <h1 data-testid="page-title">{ title }</h1>
-      { haveSearch && (
-        <img src={ searchIcon } alt="profile icon" data-testid="search-top-btn" />) }
+      <div className="header-icons-container">
+        <button type="button" onClick={ handleProfileClick }>
+          <img
+            src={ profileIcon }
+            alt="profile icon"
+            data-testid="profile-top-btn"
+          />
+        </button>
+
+        <h1 data-testid="page-title">{ title }</h1>
+        { haveSearch && (
+          <button
+            type="button"
+            onClick={ () => setIsSearchInputVisible((prevState) => !prevState) }
+          >
+            <img
+              src={ searchIcon }
+              alt="profile icon"
+              data-testid="search-top-btn"
+            />
+          </button>
+        )}
+      </div>
+      <div className="header-input-container">
+        { isSearchInputVisible && (
+          <input
+            type="text"
+            data-testid="search-input"
+          />
+        )}
+      </div>
     </header>
   );
 }

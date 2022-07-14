@@ -12,4 +12,3 @@ describe('Testes para a página de perfil', () => {
     expect(screen.queryByTestId('search-top-btn')).toBeFalsy();
   });
 });
-
