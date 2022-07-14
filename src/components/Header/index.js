@@ -6,7 +6,7 @@ import searchIcon from '../../images/searchIcon.svg';
 
 export default function Header({ title, haveSearch }) {
   return (
-    <header>
+    <header data-testid="header">
       <img src={ profileIcon } alt="profile icon" data-testid="profile-top-btn" />
       <h1 data-testid="page-title">{ title }</h1>
       { haveSearch && (
