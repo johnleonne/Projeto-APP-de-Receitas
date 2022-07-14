@@ -36,6 +36,13 @@ export default function SearchBar() {
 
   function handleFilterTextChange({ target }) {
     const { value } = target;
+
+    if (currentFilter.type === 'firstLetter' && value.length > 1) {
+      global.alert('Your search must have only 1 (one) character');
+      setFilterTextValue(filterTextValue.split('')[0]);
+      return;
+    }
+
     setFilterTextValue(value);
   }
 
@@ -55,6 +62,7 @@ export default function SearchBar() {
         <input
           type="text"
           data-testid="search-input"
+          value={ filterTextValue }
           onChange={ handleFilterTextChange }
         />
 
