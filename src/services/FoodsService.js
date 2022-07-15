@@ -21,6 +21,13 @@ class FoodsService {
 
     return meals;
   }
+
+  async requestByFoodId(id) {
+    const { meals } = await fetch(`${BASE_URL}lookup.php?i=${id}`)
+      .then((response) => response.json());
+
+    return meals;
+  }
 }
 
 export default new FoodsService();

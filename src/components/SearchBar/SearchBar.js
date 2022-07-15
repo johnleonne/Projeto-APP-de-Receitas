@@ -1,16 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import searchIcon from '../../images/searchIcon.svg';
 import FoodsService from '../../services/FoodsService';
+import DrinksService from '../../services/DrinksService';
 import { FoodsContext } from '../../context/FoodContext';
 import './SearchBar.css';
 
 export default function SearchBar() {
   const [selectedRadio, setSelectedRadio] = useState(null);
   const [filterTextValue, setFilterTextValue] = useState('');
+  const { pathname } = useLocation();
 
   const { handleChangeFilter, currentFilter, saveRecipes } = useContext(FoodsContext);
 
-  async function handleInputSearchClick() {
+  async function handleFoodsInputSearchClick() {
     const { type, searchParam } = currentFilter;
 
     if (type === 'ingredient') {
@@ -25,6 +28,25 @@ export default function SearchBar() {
 
     if (type === 'firstLetter') {
       const recipesByFirstLetter = await FoodsService.requestByFirstLetter(searchParam);
+      saveRecipes(recipesByFirstLetter);
+    }
+  }
+
+  async function handleDrinksInputSearchClick() {
+    const { type, searchParam } = currentFilter;
+
+    if (type === 'ingredient') {
+      const recipesByIngredient = await DrinksService.requestByIngredient(searchParam);
+      saveRecipes(recipesByIngredient);
+    }
+
+    if (type === 'name') {
+      const recipesByName = await DrinksService.requestByName(searchParam);
+      saveRecipes(recipesByName);
+    }
+
+    if (type === 'firstLetter') {
+      const recipesByFirstLetter = await DrinksService.requestByFirstLetter(searchParam);
       saveRecipes(recipesByFirstLetter);
     }
   }
@@ -69,7 +91,11 @@ export default function SearchBar() {
         <button
           type="button"
           data-testid="exec-search-btn"
-          onClick={ handleInputSearchClick }
+          onClick={
+            pathname === '/foods'
+              ? handleFoodsInputSearchClick
+              : handleDrinksInputSearchClick
+          }
         >
           <img src={ searchIcon } alt="search filter button" />
         </button>
