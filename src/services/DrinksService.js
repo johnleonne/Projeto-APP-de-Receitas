@@ -1,0 +1,33 @@
+const BASE_URL = 'https://www.thecocktaildb.com/api/json/v1/1/';
+
+class DrinksService {
+  async requestByIngredient(ingredient) {
+    const { drinks } = await fetch(`${BASE_URL}filter.php?i=${ingredient}`)
+      .then((response) => response.json());
+
+    return drinks;
+  }
+
+  async requestByName(foodName) {
+    const { drinks } = await fetch(`${BASE_URL}search.php?s=${foodName}`)
+      .then((response) => response.json());
+
+    return drinks;
+  }
+
+  async requestByFirstLetter(foodNameFirstLetter) {
+    const { drinks } = await fetch(`${BASE_URL}search.php?f=${foodNameFirstLetter}`)
+      .then((response) => response.json());
+
+    return drinks;
+  }
+}
+
+export default new DrinksService();
+
+/*
+Endpoints:
+procurar pelo ingrediente: https://www.themealdb.com/api/json/v1/1/filter.php?i={ingrediente}
+procurar pelo nome: https://www.themealdb.com/api/json/v1/1/search.php?s={nome}
+procurar pela 1 letra: https://www.themealdb.com/api/json/v1/1/search.php?f={primeira-letra}
+*/
