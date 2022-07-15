@@ -8,15 +8,15 @@ class DrinksService {
     return drinks;
   }
 
-  async requestByName(foodName) {
-    const { drinks } = await fetch(`${BASE_URL}search.php?s=${foodName}`)
+  async requestByName(drinkName) {
+    const { drinks } = await fetch(`${BASE_URL}search.php?s=${drinkName}`)
       .then((response) => response.json());
 
     return drinks;
   }
 
-  async requestByFirstLetter(foodNameFirstLetter) {
-    const { drinks } = await fetch(`${BASE_URL}search.php?f=${foodNameFirstLetter}`)
+  async requestByFirstLetter(drinkNameFirstLetter) {
+    const { drinks } = await fetch(`${BASE_URL}search.php?f=${drinkNameFirstLetter}`)
       .then((response) => response.json());
 
     return drinks;

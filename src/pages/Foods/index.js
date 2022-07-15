@@ -22,10 +22,8 @@ export default function Foods() {
   }, [recipes]);
 
   function filterRecipes(array) {
-    if (!array) return;
-
     const maxRecipesArrayLenght = 12;
-    if (array.length > maxRecipesArrayLenght) {
+    if (array?.length > maxRecipesArrayLenght) {
       return array.slice(0, maxRecipesArrayLenght);
     }
 
