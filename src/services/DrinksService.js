@@ -21,6 +21,13 @@ class DrinksService {
 
     return drinks;
   }
+
+  async requestByDrinkId(id) {
+    const { drinks } = await fetch(`${BASE_URL}lookup.php?i=${id}`)
+      .then((response) => response.json());
+
+    return drinks;
+  }
 }
 
 export default new DrinksService();

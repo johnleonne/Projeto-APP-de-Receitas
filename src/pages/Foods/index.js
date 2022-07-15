@@ -1,12 +1,17 @@
 import React, { useContext, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import Header from '../../components/Header';
 import { FoodsContext } from '../../context/FoodContext';
 
 export default function Foods() {
   const { recipes } = useContext(FoodsContext);
+  const history = useHistory();
 
   useEffect(() => {
-    console.log(recipes);
+    if (recipes.length === 1) {
+      const mealId = recipes[0].idMeal;
+      history.push(`/foods/${mealId}`);
+    }
   }, [recipes]);
 
   return (
