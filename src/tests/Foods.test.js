@@ -1,17 +1,20 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, cleanup } from '@testing-library/react';
 import App from '../App';
 import userEvent from '@testing-library/user-event';
 import {
   foodResponseByIngredientOnion,
-  foodResponseByName } from './Mocks/Meals';
+  foodResponseByName,
+  foodResponseByFirstLetter } from './Mocks/Meals';
+
+
+  jest.spyOn(global, 'fetch' );
 
 describe('Testes para a página de perfil', () => {
 
-  jest.fn(fetch).mockResolvedValueOnce(foodResponseByIngredientOnion);
-
   it('Verifica a funcionalidade da barra de pesquisa', async () => {
-    render(<App />);
+    global.fetch.mockResolvedValue({json: () => foodResponseByIngredientOnion});
+    render(<App />, '/')
 
     const nameInput = screen.getByTestId('email-input');
     const passwordInput = screen.getByTestId('password-input');
@@ -41,12 +44,40 @@ describe('Testes para a página de perfil', () => {
       expect(screen.getByAltText(strMeal.trim()).src).toBe(strMealThumb)
     })
 
-    jest.fn(fetch).mockResolvedValueOnce(foodResponseByName);
+    jest.clearAllMocks()
+
+    global.fetch.mockResolvedValue({json: () => foodResponseByName});
 
     const nameRadio = screen.getByLabelText(/name/i);
     userEvent.click(nameRadio);
     userEvent.type(searchInput,'{selectall}chicken');
     userEvent.click(filterSearchBtn);
     expect(await screen.findAllByRole('heading', { level: 3 })).toHaveLength(12);
+
+    foodResponseByName.meals.forEach(({ strMeal, strMealThumb }, index) => {
+      if ( index === 12) return
+      expect(screen.getByRole('heading', { level: 3, name: strMeal.trim() })).toBeInTheDocument()
+      expect(screen.getByAltText(strMeal.trim())).toBeInTheDocument()
+      expect(screen.getByAltText(strMeal.trim()).src).toBe(strMealThumb)
+    })
+
+    jest.clearAllMocks()
+
+    global.fetch.mockResolvedValue({json: () => foodResponseByFirstLetter});
+
+    const firstLetterRadio = screen.getByLabelText(/first letter/i);
+    userEvent.click(firstLetterRadio);
+    userEvent.type(searchInput,'{selectall}c');
+    userEvent.click(filterSearchBtn);
+    expect(await screen.findAllByRole('heading', { level: 3 })).toHaveLength(12);
+
+    expect(await screen.findByText(/chocolate gateau/i)).toBeInTheDocument();
+
+    foodResponseByFirstLetter.meals.forEach(({ strMeal, strMealThumb }, index) => {
+      if ( index === 12) return
+      expect(screen.getByRole('heading', { level: 3, name: strMeal.trim() })).toBeInTheDocument()
+      expect(screen.getByAltText(strMeal.trim())).toBeInTheDocument()
+      expect(screen.getByAltText(strMeal.trim()).src).toBe(strMealThumb)
+    })
   });
 });
