@@ -28,6 +28,13 @@ class DrinksService {
 
     return drinks;
   }
+
+  async requestFirst12() {
+    const { drinks } = await fetch(`${BASE_URL}search.php?s=`)
+      .then((response) => response.json());
+
+    return drinks;
+  }
 }
 
 export default new DrinksService();

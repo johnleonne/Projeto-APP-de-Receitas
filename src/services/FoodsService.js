@@ -28,6 +28,13 @@ class FoodsService {
 
     return meals;
   }
+
+  async requestFirst12() {
+    const { meals } = await fetch(`${BASE_URL}search.php?s=`)
+      .then((response) => response.json());
+
+    return meals;
+  }
 }
 
 export default new FoodsService();
