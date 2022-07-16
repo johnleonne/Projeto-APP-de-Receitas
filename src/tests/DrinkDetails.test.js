@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 
 describe('Testes para a página de perfil', () => {
   it('Verifica o redirecionamento para a página de detalhes da bebida', async () => {
-    render(<App />);
+    render(<App />);   
 
     const nameInput = screen.getByTestId('email-input');
     const passwordInput = screen.getByTestId('password-input');
@@ -23,18 +23,13 @@ describe('Testes para a página de perfil', () => {
 
     expect(screen.getByText('Drinks')).toBeInTheDocument();
 
-    const searchBtn = screen.getByTestId('search-top-btn');
-    userEvent.click(searchBtn);
+    expect(await screen.findByTestId('0-card-img')).toBeInTheDocument();
 
-    const searchInput = screen.getByTestId('search-input');
-    const nameRadio = screen.getByLabelText(/name/i);
-    userEvent.type(searchInput, 'abc')
-    userEvent.click(nameRadio);
+    userEvent.click(await screen.findByTestId('0-card-img'));
 
-    const filterSearchBtn = screen.getByTestId('exec-search-btn');
-    userEvent.click(filterSearchBtn);
+    expect(await screen.findByRole('heading', { level: 1, name: /drink detail page/i }))
 
-    expect(await screen.findByText(/drink detail page/i)).toBeInTheDocument();
+    expect(await screen.findByText(/gg/i)).toBeInTheDocument();
 
   });
 });

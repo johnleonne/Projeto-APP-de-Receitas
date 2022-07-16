@@ -1,26 +1,9 @@
 import React from 'react';
-import Header from '../components/Header';
 import App from '../App';
-import { render, screen, cleanup } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('Testes para a página de perfil', () => {
-  afterEach(cleanup);
-
-  it('Verifica se o header renderiza com as informações corretas', () => {
-    render(<Header haveSearch title="Test"/>);
-
-    const searchButton = screen.getByTestId('search-top-btn');
-
-    expect(screen.getByTestId('header')).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 1, name: 'Test' }));
-
-    expect(screen.queryByTestId('search-input')).toBeFalsy();
-
-    userEvent.click(searchButton);
-
-    expect(screen.getByTestId('search-input')).toBeInTheDocument();
-  });
 
   it('Verifica se o header leva para a página `/profile` quando o botão de profile for clicado', () => {
     render(<App />);
