@@ -1,8 +1,10 @@
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FoodsContext } from '../../context/FoodContext';
+import DrinksService from '../../services/DrinksService';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer/Footer';
+import Recipes from '../../components/Recipes/Recipes';
 import RecipeCard from '../../components/RecipeCard';
 
 export default function Drinks() {
@@ -21,6 +23,10 @@ export default function Drinks() {
     }
   }, [recipes]);
 
+  useEffect(() => {
+    DrinksService.requestFirst12().then((data) => saveRecipes(data));
+  }, []);
+
   function filterDrinks(array) {
     if (!array) return;
 
@@ -36,13 +42,15 @@ export default function Drinks() {
     <main className="drinks-page-container">
       <Header title="Drinks" haveSearch />
       <h1>Drinks page</h1>
-      {!!recipes && filterDrinks(recipes).map((recipe, index) => (
-        <RecipeCard
-          key={ recipe.strDrink }
-          recipe={ recipe }
-          index={ index }
-        />
-      ))}
+      <Recipes>
+        {!!recipes && filterDrinks(recipes).map((recipe, index) => (
+          <RecipeCard
+            key={ recipe.strDrink }
+            recipe={ recipe }
+            index={ index }
+          />
+        ))}
+      </Recipes>
       <Footer />
     </main>
   );

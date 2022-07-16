@@ -4,6 +4,8 @@ import RecipeCard from '../../components/RecipeCard';
 import Header from '../../components/Header';
 import { FoodsContext } from '../../context/FoodContext';
 import Footer from '../../components/Footer/Footer';
+import Recipes from '../../components/Recipes/Recipes';
+import FoodsService from '../../services/FoodsService';
 
 export default function Foods() {
   const { recipes, saveRecipes } = useContext(FoodsContext);
@@ -21,6 +23,10 @@ export default function Foods() {
     }
   }, [recipes]);
 
+  useEffect(() => {
+    FoodsService.requestFirst12().then((data) => saveRecipes(data));
+  }, []);
+
   function filterRecipes(array) {
     const maxRecipesArrayLenght = 12;
     if (array?.length > maxRecipesArrayLenght) {
@@ -35,13 +41,15 @@ export default function Foods() {
       <Header title="Foods" haveSearch />
       <h1>Foods page</h1>
       <div className="food-cards-container">
-        {!!recipes && filterRecipes(recipes).map((recipe, index) => (
-          <RecipeCard
-            key={ recipe.strMeal }
-            recipe={ recipe }
-            index={ index }
-          />
-        ))}
+        <Recipes>
+          {!!recipes && filterRecipes(recipes).map((recipe, index) => (
+            <RecipeCard
+              key={ recipe.strMeal }
+              recipe={ recipe }
+              index={ index }
+            />
+          ))}
+        </Recipes>
       </div>
       <Footer />
     </main>
