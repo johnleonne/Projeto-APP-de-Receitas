@@ -8,7 +8,6 @@ export default function FoodProvider({ children }) {
     type: '',
     searchParam: '',
   });
-
   const [recipes, setRecipes] = useState([]);
 
   const initialValue = {
