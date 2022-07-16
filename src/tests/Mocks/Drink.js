@@ -321,7 +321,7 @@ export const drinkResponseByName = {
         ]
 }
 
-export const drinkResponseByIngredient = {
+export const drinkResponseByIngredientVodka = {
     "drinks": [
         {
         "strDrink": "155 Belmont",
