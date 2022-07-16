@@ -53,6 +53,15 @@ class FoodsService {
 
     return meals;
   }
+
+  async requestRecommendedDrinks() {
+    const sixthIndex = 6;
+    const recommendationURL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+    const { drinks } = await fetch(recommendationURL)
+      .then((response) => response.json());
+
+    return drinks.splice(0, sixthIndex);
+  }
 }
 
 export default new FoodsService();

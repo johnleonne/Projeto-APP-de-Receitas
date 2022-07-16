@@ -14,9 +14,12 @@ export default function Drinks() {
   const history = useHistory();
 
   useEffect(() => {
+    const halfSecond = 500;
     if (recipes && recipes.length === 1) {
       const drinkId = recipes[0].idDrink;
-      history.push(`/drinks/${drinkId}`);
+      setTimeout(() => {
+        history.push(`/drinks/${drinkId}`);
+      }, halfSecond);
     }
 
     if (!recipes) {

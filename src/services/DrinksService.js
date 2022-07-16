@@ -51,6 +51,15 @@ class DrinksService {
 
     return drinks;
   }
+
+  async requestRecommendedFoods() {
+    const sixthIndex = 6;
+    const recommendationURL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+    const { meals } = await fetch(recommendationURL)
+      .then((response) => response.json());
+
+    return meals.splice(0, sixthIndex);
+  }
 }
 
 export default new DrinksService();
