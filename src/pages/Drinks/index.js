@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FoodsContext } from '../../context/FoodContext';
 import Header from '../../components/Header';
+import Footer from '../../components/Footer/Footer';
 import RecipeCard from '../../components/RecipeCard';
 
 export default function Drinks() {
@@ -42,6 +43,7 @@ export default function Drinks() {
           index={ index }
         />
       ))}
+      <Footer />
     </main>
   );
 }

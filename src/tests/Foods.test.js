@@ -1,11 +1,13 @@
 import React from 'react';
-import { render, screen, cleanup } from '@testing-library/react';
+import { render, screen, cleanup, act, waitFor } from '@testing-library/react';
 import App from '../App';
 import userEvent from '@testing-library/user-event';
 import {
   foodResponseByIngredientOnion,
   foodResponseByName,
-  foodResponseByFirstLetter } from './Mocks/Meals';
+  foodResponseByFirstLetter,
+  foodResponseNotFound
+} from './Mocks/Meals';
 
 
   jest.spyOn(global, 'fetch' );
@@ -13,8 +15,11 @@ import {
 describe('Testes para a página de perfil', () => {
 
   it('Verifica a funcionalidade da barra de pesquisa', async () => {
+    act(() => {
+      render(<App />);
+    });
+
     global.fetch.mockResolvedValue({json: () => foodResponseByIngredientOnion});
-    render(<App />, '/')
 
     const nameInput = screen.getByTestId('email-input');
     const passwordInput = screen.getByTestId('password-input');
@@ -79,5 +84,18 @@ describe('Testes para a página de perfil', () => {
       expect(screen.getByAltText(strMeal.trim())).toBeInTheDocument()
       expect(screen.getByAltText(strMeal.trim()).src).toBe(strMealThumb)
     })
+
+    jest.clearAllMocks()
+
+    global.fetch.mockResolvedValue({ json: () => foodResponseNotFound });
+
+    userEvent.click(nameRadio);
+    userEvent.type(searchInput,'{selectall}odeiotestes');
+    userEvent.click(filterSearchBtn);
+
+    jest.spyOn(global, 'alert');
+
+    waitFor(() => expect(global.alert).toHaveBeenCalled());
+    waitFor(() => expect(global.alert).toHaveBeenCalledWith(`${''}Sorry, we haven't found any recipes for these filters.`));
   });
 });
