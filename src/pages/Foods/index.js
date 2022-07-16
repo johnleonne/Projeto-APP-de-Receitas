@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecipeCard from '../../components/RecipeCard';
 import Header from '../../components/Header';
@@ -6,15 +6,20 @@ import { FoodsContext } from '../../context/FoodContext';
 import Footer from '../../components/Footer/Footer';
 import Recipes from '../../components/Recipes/Recipes';
 import FoodsService from '../../services/FoodsService';
+import CategoryButton from '../../components/CategoryButton';
 
 export default function Foods() {
-  const { recipes, saveRecipes } = useContext(FoodsContext);
+  const [foodCategories, setFoodCategories] = useState(['All']);
+  const { recipes, saveRecipes, category } = useContext(FoodsContext);
   const history = useHistory();
 
   useEffect(() => {
+    const halfSecond = 500;
     if (recipes && recipes.length === 1) {
       const mealId = recipes[0].idMeal;
-      history.push(`/foods/${mealId}`);
+      setTimeout(() => {
+        history.push(`/foods/${mealId}`);
+      }, halfSecond);
     }
 
     if (!recipes) {
@@ -25,7 +30,19 @@ export default function Foods() {
 
   useEffect(() => {
     FoodsService.requestFirst12().then((data) => saveRecipes(data));
+    FoodsService.requestFirst5Categories().then((data) => {
+      setFoodCategories((prevState) => [...prevState, ...data]);
+    });
   }, []);
+
+  useEffect(() => {
+    if (category === 'All') {
+      FoodsService.requestFirst12().then((data) => saveRecipes(data));
+      return;
+    }
+
+    FoodsService.requestByCategory(category).then((data) => saveRecipes(data));
+  }, [category]);
 
   function filterRecipes(array) {
     const maxRecipesArrayLenght = 12;
@@ -41,6 +58,11 @@ export default function Foods() {
       <Header title="Foods" haveSearch />
       <h1>Foods page</h1>
       <div className="food-cards-container">
+        <div className="filter-buttons-container">
+          { foodCategories.map((categoryName) => (
+            <CategoryButton key={ categoryName } name={ categoryName } />
+          ))}
+        </div>
         <Recipes>
           {!!recipes && filterRecipes(recipes).map((recipe, index) => (
             <RecipeCard

@@ -2,3 +2,7 @@
   height: 150px;
   width: 150px;
 }
+
+.recipe-anchor {
+  text-decoration: none;
+}

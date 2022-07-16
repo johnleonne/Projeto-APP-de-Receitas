@@ -35,6 +35,24 @@ class FoodsService {
 
     return meals;
   }
+
+  async requestFirst5Categories() {
+    const indexFive = 5;
+
+    const { meals } = await fetch(`${BASE_URL}list.php?c=list`)
+      .then((response) => response.json());
+
+    return meals
+      .slice(0, indexFive)
+      .map(({ strCategory }) => strCategory);
+  }
+
+  async requestByCategory(foodCategory) {
+    const { meals } = await fetch(`${BASE_URL}filter.php?c=${foodCategory}`)
+      .then((response) => response.json());
+
+    return meals;
+  }
 }
 
 export default new FoodsService();
