@@ -1,10 +1,9 @@
 import React from 'react';
 import App from '../App';
-import { render, screen } from '@testing-library/react';
+import { render, screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 describe('Testes para a página de perfil', () => {
-
   it('Verifica se o header leva para a página `/profile` quando o botão de profile for clicado', () => {
     render(<App />);
 
@@ -17,8 +16,15 @@ describe('Testes para a página de perfil', () => {
 
     userEvent.click(loginButton);
 
-    userEvent.click(screen.getByTestId('profile-top-btn'));
+    expect(screen.getByTestId('footer')).toBeInTheDocument();
 
-    expect(screen.getByRole('heading', { level: 1, name: 'Profile' })).toBeInTheDocument();
+    const foodsPageRedirectButton = screen.getByTestId('food-bottom-btn');
+    const drinksPageRedirectButton = screen.getByTestId('drinks-bottom-btn');
+
+    userEvent.click(foodsPageRedirectButton);
+    expect(screen.getByRole('heading', { name: 'Foods', level: 1 })).toBeInTheDocument();
+
+    userEvent.click(drinksPageRedirectButton);
+    expect(screen.getByRole('heading', { name: 'Drinks', level: 1 })).toBeInTheDocument();
   })
 });

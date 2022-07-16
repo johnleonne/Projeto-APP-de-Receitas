@@ -9,12 +9,15 @@ export default function FoodProvider({ children }) {
     searchParam: '',
   });
   const [recipes, setRecipes] = useState([]);
+  const [category, setCategory] = useState('All');
 
   const initialValue = {
     currentFilter,
     recipes,
+    category,
     handleChangeFilter: (filter) => setCurrentFilter(filter),
     saveRecipes: (data) => setRecipes(data),
+    saveCategory: (categoryName) => setCategory(categoryName),
   };
 
   return (

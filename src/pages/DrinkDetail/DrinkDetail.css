@@ -1,0 +1,11 @@
+.drink-detail-container > img {
+  height: 150px;
+  width: 150px;
+}
+
+.recommendations-container {
+  display: flex;
+  gap: 5px;
+  max-width: 100%;
+  overflow-x: scroll;
+}

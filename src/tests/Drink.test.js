@@ -1,20 +1,17 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { drinksResponseByName } from './Mocks/Drink';
+import { drinkResponseByFirstLetter, drinkResponseByIngredientVodka, drinkResponseByName } from './Mocks/Drink';
 import userEvent from '@testing-library/user-event';
-import renderWithRouter from './helpers/renderWithRouter';
 import App from '../App';
 
-describe('Testes para a página de perfil', () => {
+jest.spyOn(global, 'fetch' );
+
+
+describe('Testes para a página de Drinks', () => {
   it('Verifica se o header renderiza com as informações corretas', async () => {
-    // const { history } = renderWithRouter(<App />);
-    // history.push('/drinks');
-    // console.log(history.location.pathname);
-    // expect(await screen.findByTestId('header')).toBeTruthy();
-    // expect(screen.getByRole('heading', { level: 1, name: 'Drinks' }));
-    // expect(screen.queryByTestId('profile-top-btn')).toBeTruthy();
-    // expect(screen.queryByTestId('search-top-btn')).toBeTruthy();
     render(<App />);
+
+    global.fetch.mockResolvedValue({json: () => drinkResponseByIngredientVodka});
 
     const nameInput = screen.getByTestId('email-input');
     const passwordInput = screen.getByTestId('password-input');
@@ -23,20 +20,57 @@ describe('Testes para a página de perfil', () => {
     userEvent.type(nameInput, 'teste@gmail.com');
     userEvent.type(passwordInput, '123456789');
     userEvent.click(loginBtn);
+    userEvent.click(screen.getByTestId('drinks-bottom-btn'))
+     
+    const searchBtn = screen.getByTestId('search-top-btn');
+    userEvent.click(searchBtn);
 
-    expect(screen.getByText('Foods')).toBeInTheDocument();
-
-  });
-  // it('teste', () => {
-  //   const { history } =  renderWithRouter(<App />);
-
-  //   const searchButton = screen.getByTestId('search-top-btn');
-  //   const input = screen.getByTestId('search-input');
     
-  //   userEvent.click(searchButton);
+    const searchInput = screen.getByTestId('search-input');
+    const ingredientRadio = screen.getByLabelText(/ingredient/i);
+    expect(searchBtn).toBeInTheDocument()
+    userEvent.click(ingredientRadio);
+    userEvent.type(searchInput, 'vodka')
 
-  //   // expect(input).toBeInTheDocument();
+    const filterSearchBtn = screen.getByTestId('exec-search-btn');
+    userEvent.click(filterSearchBtn);
 
-  //   userEvent.type('')
-  // })
+    expect(await screen.findAllByRole('heading', { level: 3 })).toHaveLength(12);
+    expect(screen.getByRole('heading', {
+      name: /155 belmont/i
+    })).toBeInTheDocument()
+    
+    // drinkResponseByIngredientVodka.drinks.forEach(({ strDrink, strDrinkThumb }) => {
+    //   expect(screen.getByRole('heading', { level: 3, name: strDrink })).toBeInTheDocument()
+    //   expect(screen.getByAltText(strDrink.trim())).toBeInTheDocument()
+    //   expect(screen.getByAltText(strDrink.trim()).src).toBe(strDrinkThumb)
+    // })
+
+    jest.clearAllMocks()
+    global.fetch.mockResolvedValue({json: () => drinkResponseByName});
+
+    const nameRadio = screen.getByLabelText(/name/i);
+    userEvent.click(nameRadio);
+    userEvent.type(searchInput,'{selectall}Margarita');
+    userEvent.click(filterSearchBtn);
+
+    jest.clearAllMocks()
+    global.fetch.mockResolvedValue({json: () => drinkResponseByFirstLetter});    
+
+    const firstLetterRadio = screen.getByLabelText(/first letter/i);
+    userEvent.click(firstLetterRadio);
+    userEvent.type(searchInput,'{selectall}a');
+    userEvent.click(filterSearchBtn);
+    expect(await screen.findAllByRole('heading', { level: 3 })).toHaveLength(12);
+    expect(screen.getByRole('heading', {  name: /a1/i})).toBeInTheDocument()
+
+    global.alert = jest.fn()
+
+
+    userEvent.click(firstLetterRadio);
+    userEvent.type(searchInput,'{selectall}od');
+
+    expect(global.alert).toBeCalled()
+    expect(global.alert).toBeCalledWith('Your search must have only 1 (one) character')
+  });
 });

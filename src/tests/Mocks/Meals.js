@@ -1559,3 +1559,7 @@ export const foodResponseByFirstLetter = {
         "dateModified": null
         },]
 };
+
+export const foodResponseNotFound = {
+    "meals": null
+}

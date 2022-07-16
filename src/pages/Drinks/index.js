@@ -1,17 +1,25 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { FoodsContext } from '../../context/FoodContext';
+import DrinksService from '../../services/DrinksService';
 import Header from '../../components/Header';
+import Footer from '../../components/Footer/Footer';
+import Recipes from '../../components/Recipes/Recipes';
 import RecipeCard from '../../components/RecipeCard';
+import CategoryButton from '../../components/CategoryButton';
 
 export default function Drinks() {
-  const { recipes, saveRecipes } = useContext(FoodsContext);
+  const [drinksCategories, setDrinksCategories] = useState(['All']);
+  const { recipes, saveRecipes, category } = useContext(FoodsContext);
   const history = useHistory();
 
   useEffect(() => {
+    const halfSecond = 500;
     if (recipes && recipes.length === 1) {
       const drinkId = recipes[0].idDrink;
-      history.push(`/drinks/${drinkId}`);
+      setTimeout(() => {
+        history.push(`/drinks/${drinkId}`);
+      }, halfSecond);
     }
 
     if (!recipes) {
@@ -19,6 +27,22 @@ export default function Drinks() {
       saveRecipes([]);
     }
   }, [recipes]);
+
+  useEffect(() => {
+    DrinksService.requestFirst12().then((data) => saveRecipes(data));
+    DrinksService.requestFirst5Categories().then((data) => {
+      setDrinksCategories((prevState) => [...prevState, ...data]);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (category === 'All') {
+      DrinksService.requestFirst12().then((data) => saveRecipes(data));
+      return;
+    }
+
+    DrinksService.requestByCategory(category).then((data) => saveRecipes(data));
+  }, [category]);
 
   function filterDrinks(array) {
     if (!array) return;
@@ -35,13 +59,23 @@ export default function Drinks() {
     <main className="drinks-page-container">
       <Header title="Drinks" haveSearch />
       <h1>Drinks page</h1>
-      {!!recipes && filterDrinks(recipes).map((recipe, index) => (
-        <RecipeCard
-          key={ recipe.strDrink }
-          recipe={ recipe }
-          index={ index }
-        />
-      ))}
+      <div className="drinks-cards-container">
+        <div className="filter-buttons-container">
+          { drinksCategories.map((categoryName) => (
+            <CategoryButton key={ categoryName } name={ categoryName } />
+          ))}
+        </div>
+        <Recipes>
+          {!!recipes && filterDrinks(recipes).map((recipe, index) => (
+            <RecipeCard
+              key={ recipe.strDrink }
+              recipe={ recipe }
+              index={ index }
+            />
+          ))}
+        </Recipes>
+      </div>
+      <Footer />
     </main>
   );
 }

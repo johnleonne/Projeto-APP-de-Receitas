@@ -28,6 +28,40 @@ class FoodsService {
 
     return meals;
   }
+
+  async requestFirst12() {
+    const { meals } = await fetch(`${BASE_URL}search.php?s=`)
+      .then((response) => response.json());
+
+    return meals;
+  }
+
+  async requestFirst5Categories() {
+    const indexFive = 5;
+
+    const { meals } = await fetch(`${BASE_URL}list.php?c=list`)
+      .then((response) => response.json());
+
+    return meals
+      .slice(0, indexFive)
+      .map(({ strCategory }) => strCategory);
+  }
+
+  async requestByCategory(foodCategory) {
+    const { meals } = await fetch(`${BASE_URL}filter.php?c=${foodCategory}`)
+      .then((response) => response.json());
+
+    return meals;
+  }
+
+  async requestRecommendedDrinks() {
+    const sixthIndex = 6;
+    const recommendationURL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+    const { drinks } = await fetch(recommendationURL)
+      .then((response) => response.json());
+
+    return drinks.splice(0, sixthIndex);
+  }
 }
 
 export default new FoodsService();
