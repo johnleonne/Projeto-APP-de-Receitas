@@ -93,9 +93,18 @@ describe('Testes para a página de perfil', () => {
     userEvent.type(searchInput,'{selectall}odeiotestes');
     userEvent.click(filterSearchBtn);
 
-    jest.spyOn(global, 'alert');
+    // jest.spyOn(global, 'alert');
+    global.alert = jest.fn()
 
     waitFor(() => expect(global.alert).toHaveBeenCalled());
     waitFor(() => expect(global.alert).toHaveBeenCalledWith(`${''}Sorry, we haven't found any recipes for these filters.`));
+
+
+    userEvent.click(firstLetterRadio);
+    userEvent.type(searchInput,'{selectall}od');
+    userEvent.click(filterSearchBtn);
+    
+    expect(global.alert).toBeCalled()
+    expect(global.alert).toBeCalledWith('Your search must have only 1 (one) character')
   });
 });
