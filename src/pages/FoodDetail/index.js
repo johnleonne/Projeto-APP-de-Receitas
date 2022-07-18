@@ -3,6 +3,7 @@ import { useParams, useLocation } from 'react-router-dom';
 import FoodsService from '../../services/FoodsService';
 import RecipeCard from '../../components/RecipeCard';
 import StartRecipeButton from '../../components/StartRecipeButton';
+import RecipeDetailsInteractions from '../../components/RecipeDetailsInteractions';
 import './FoodDetail.css';
 
 export default function FoodDetail() {
@@ -42,7 +43,6 @@ export default function FoodDetail() {
     if (!youtubeLink) return;
     const baseEmbedURL = 'https://www.youtube.com/embed/';
     const videoId = youtubeLink.split('v=')[1];
-    console.log(`${baseEmbedURL}${videoId}`);
     return `${baseEmbedURL}${videoId}`;
   }
 
@@ -75,6 +75,8 @@ export default function FoodDetail() {
           src={ recipeDetail[0]?.strMealThumb }
           alt={ recipeDetail[0]?.strMeal }
         />
+
+        <RecipeDetailsInteractions />
 
         <div className="ingredients-container">
           { recipeDetail[0]

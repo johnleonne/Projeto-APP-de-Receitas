@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import DrinksService from '../../services/DrinksService';
 import StartRecipeButton from '../../components/StartRecipeButton';
+import RecipeDetailsInteractions from '../../components/RecipeDetailsInteractions';
 import RecipeCard from '../../components/RecipeCard';
 import './DrinkDetail.css';
 
@@ -60,13 +61,15 @@ export default function DrinkDetail() {
 
         <h3 data-testid="recipe-title">{ drinkDetail[0]?.strDrink }</h3>
 
-        <p data-testid="recipe-category">{drinkDetail[0]?.strCategory }</p>
+        <p data-testid="recipe-category">{drinkDetail[0]?.strAlcoholic }</p>
 
         <img
           data-testid="recipe-photo"
           src={ drinkDetail[0]?.strDrinkThumb }
           alt={ drinkDetail[0]?.strDrink }
         />
+
+        <RecipeDetailsInteractions />
 
         <div className="ingredients-container">
           { drinkDetail[0]
