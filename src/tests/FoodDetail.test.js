@@ -37,4 +37,13 @@ describe('Testes para a página de Foods', () => {
     expect(localStorage.setItem).toHaveBeenCalledWith('favoriteRecipes', JSON.stringify([favoriteRecipeObj])) 
 
   })
+  it('Testa a funcionalidade do botão "start recipe"', async () => {
+    const { history } = renderWithRouter('/foods/52795');
+
+    expect(await screen.findByTestId('start-recipe-btn')).toBeInTheDocument();
+
+    userEvent.click(await screen.findByTestId('start-recipe-btn'));
+
+    expect(await screen.findByRole('heading', { level: 1 , name: /chicken handi/i })).toBeInTheDocument();
+  })
 });
