@@ -60,7 +60,7 @@ class FoodsService {
     const { drinks } = await fetch(recommendationURL)
       .then((response) => response.json());
 
-    return drinks.splice(0, sixthIndex);
+    return drinks.slice(0, sixthIndex);
   }
 }
 

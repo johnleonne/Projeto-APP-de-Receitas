@@ -10,7 +10,7 @@ import CategoryButton from '../../components/CategoryButton';
 
 export default function Drinks() {
   const [drinksCategories, setDrinksCategories] = useState(['All']);
-  const { recipes, saveRecipes, category } = useContext(FoodsContext);
+  const { recipes, saveRecipes, category, saveCategory } = useContext(FoodsContext);
   const history = useHistory();
 
   useEffect(() => {
@@ -33,6 +33,10 @@ export default function Drinks() {
     DrinksService.requestFirst5Categories().then((data) => {
       setDrinksCategories((prevState) => [...prevState, ...data]);
     });
+
+    return () => {
+      saveCategory('All');
+    };
   }, []);
 
   useEffect(() => {
@@ -45,8 +49,6 @@ export default function Drinks() {
   }, [category]);
 
   function filterDrinks(array) {
-    if (!array) return;
-
     const maxRecipesArrayLenght = 12;
     if (array.length > maxRecipesArrayLenght) {
       return array.slice(0, maxRecipesArrayLenght);

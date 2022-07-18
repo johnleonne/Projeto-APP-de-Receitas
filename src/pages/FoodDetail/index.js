@@ -101,15 +101,13 @@ export default function FoodDetail() {
 
         <section className="recommendations-container">
           { recommendedDrinks.map((recipe, index) => (
-            <div
+            <RecipeCard
+              recomendation
               key={ Math.random() }
-              data-testid={ `${index}-recomendation-card` }
-            >
-              <RecipeCard
-                recipe={ recipe }
-                index={ index }
-              />
-            </div>
+              recipe={ recipe }
+              index={ index }
+              dataTestId={ `${index}-recomendation-card` }
+            />
           ))}
         </section>
       </div>

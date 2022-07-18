@@ -85,15 +85,13 @@ export default function DrinkDetail() {
 
         <div className="recommendations-container">
           { recommendedMeals.map((recipe, index) => (
-            <div
+            <RecipeCard
+              recomendation
               key={ Math.random() }
-              data-testid={ `${index}-recomendation-card` }
-            >
-              <RecipeCard
-                recipe={ recipe }
-                index={ index }
-              />
-            </div>
+              dataTestId={ `${index}-recomendation-card` }
+              recipe={ recipe }
+              index={ index }
+            />
           ))}
         </div>
       </div>

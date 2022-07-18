@@ -5,7 +5,7 @@
 
 .recommendations-container {
   display: flex;
-  gap: 5px;
+  gap: 15px;
   max-width: 100%;
   overflow-x: scroll;
 }
