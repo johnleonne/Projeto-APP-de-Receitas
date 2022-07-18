@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import RecipeCard from '../../components/RecipeCard';
-import Header from '../../components/Header';
 import { FoodsContext } from '../../context/FoodContext';
+import FoodsService from '../../services/FoodsService';
+import Header from '../../components/Header';
 import Footer from '../../components/Footer/Footer';
 import Recipes from '../../components/Recipes/Recipes';
-import FoodsService from '../../services/FoodsService';
+import RecipeCard from '../../components/RecipeCard';
 import CategoryButton from '../../components/CategoryButton';
 
 export default function Foods() {
   const [foodCategories, setFoodCategories] = useState(['All']);
-  const { recipes, saveRecipes, category } = useContext(FoodsContext);
+  const { recipes, saveRecipes, category, saveCategory } = useContext(FoodsContext);
   const history = useHistory();
 
   useEffect(() => {
@@ -33,6 +33,10 @@ export default function Foods() {
     FoodsService.requestFirst5Categories().then((data) => {
       setFoodCategories((prevState) => [...prevState, ...data]);
     });
+
+    return () => {
+      saveCategory('All');
+    };
   }, []);
 
   useEffect(() => {

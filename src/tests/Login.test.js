@@ -1,13 +1,14 @@
 import React from 'react';
-import { screen, render } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
+import renderWithRouter from './helpers/renderWithRouter'
+
 
 describe('Testa as validações da página de Login', () => {
   
   it('Testa se as validações dos campos de email funcionam corretamente', () => {
-    render(<App />);
-
+    renderWithRouter('/')
     const emailInput = screen.getByTestId('email-input');
     const passwordInput = screen.getByTestId('password-input');
     const loginButton = screen.getByRole('button', { name: /enter/i });

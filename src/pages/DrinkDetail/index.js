@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import DrinksService from '../../services/DrinksService';
+import StartRecipeButton from '../../components/StartRecipeButton';
+import RecipeDetailsInteractions from '../../components/RecipeDetailsInteractions';
 import RecipeCard from '../../components/RecipeCard';
 import './DrinkDetail.css';
 
 export default function DrinkDetail() {
   const [drinkDetail, setDrinkDetail] = useState([]);
   const [recommendedMeals, setRecommendedMeals] = useState([]);
+  const { pathname } = useLocation();
   const { id } = useParams();
 
   function filterIngredients(recipe) {
@@ -58,12 +61,17 @@ export default function DrinkDetail() {
 
         <h3 data-testid="recipe-title">{ drinkDetail[0]?.strDrink }</h3>
 
-        <p data-testid="recipe-category">{drinkDetail[0]?.strCategory }</p>
+        <p data-testid="recipe-category">{drinkDetail[0]?.strAlcoholic }</p>
 
         <img
           data-testid="recipe-photo"
           src={ drinkDetail[0]?.strDrinkThumb }
           alt={ drinkDetail[0]?.strDrink }
+        />
+
+        <RecipeDetailsInteractions
+          recipe={ drinkDetail[0] ?? {} }
+          recipeType={ pathname.split('/').filter(Boolean)[0] }
         />
 
         <div className="ingredients-container">
@@ -85,17 +93,19 @@ export default function DrinkDetail() {
 
         <div className="recommendations-container">
           { recommendedMeals.map((recipe, index) => (
-            <div
+            <RecipeCard
+              recomendation
               key={ Math.random() }
-              data-testid={ `${index}-recomendation-card` }
-            >
-              <RecipeCard
-                recipe={ recipe }
-                index={ index }
-              />
-            </div>
+              dataTestId={ `${index}-recomendation-card` }
+              recipe={ recipe }
+              index={ index }
+            />
           ))}
         </div>
+        <StartRecipeButton
+          recipe={ drinkDetail[0] ?? {} }
+          recipeType={ pathname.split('/').filter(Boolean)[0] }
+        />
       </div>
     </main>
   );

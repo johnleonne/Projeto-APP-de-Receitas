@@ -58,7 +58,7 @@ class DrinksService {
     const { meals } = await fetch(recommendationURL)
       .then((response) => response.json());
 
-    return meals.splice(0, sixthIndex);
+    return meals.slice(0, sixthIndex);
   }
 }
 

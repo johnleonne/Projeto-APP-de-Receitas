@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import FoodsService from '../../services/FoodsService';
 import RecipeCard from '../../components/RecipeCard';
+import StartRecipeButton from '../../components/StartRecipeButton';
+import RecipeDetailsInteractions from '../../components/RecipeDetailsInteractions';
 import './FoodDetail.css';
 
 export default function FoodDetail() {
   const [recipeDetail, setRecipeDetail] = useState([]);
   const [recommendedDrinks, setRecommendedDrinks] = useState([]);
   const { id } = useParams();
+  const { pathname } = useLocation();
 
   function filterIngredients(recipe) {
     return Object.keys(recipe)
@@ -40,7 +43,6 @@ export default function FoodDetail() {
     if (!youtubeLink) return;
     const baseEmbedURL = 'https://www.youtube.com/embed/';
     const videoId = youtubeLink.split('v=')[1];
-    console.log(`${baseEmbedURL}${videoId}`);
     return `${baseEmbedURL}${videoId}`;
   }
 
@@ -74,6 +76,11 @@ export default function FoodDetail() {
           alt={ recipeDetail[0]?.strMeal }
         />
 
+        <RecipeDetailsInteractions
+          recipe={ recipeDetail[0] ?? {} }
+          recipeType={ pathname.split('/').filter(Boolean)[0] }
+        />
+
         <div className="ingredients-container">
           { recipeDetail[0]
           && Object.entries(generateMeasuresObject(recipeDetail[0]))
@@ -101,17 +108,19 @@ export default function FoodDetail() {
 
         <section className="recommendations-container">
           { recommendedDrinks.map((recipe, index) => (
-            <div
+            <RecipeCard
+              recomendation
               key={ Math.random() }
-              data-testid={ `${index}-recomendation-card` }
-            >
-              <RecipeCard
-                recipe={ recipe }
-                index={ index }
-              />
-            </div>
+              recipe={ recipe }
+              index={ index }
+              dataTestId={ `${index}-recomendation-card` }
+            />
           ))}
         </section>
+        <StartRecipeButton
+          recipe={ recipeDetail[0] ?? {} }
+          recipeType={ pathname.split('/').filter(Boolean)[0] }
+        />
       </div>
     </main>
   );

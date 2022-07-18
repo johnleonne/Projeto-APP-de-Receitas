@@ -1,35 +1,27 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import App from '../App';
+import { screen } from '@testing-library/react';
+import renderWithRouter from './helpers/renderWithRouter'
 import userEvent from '@testing-library/user-event';
+import { favDrinks } from './Mocks/Drink';
+import createFavoriteRecipeObject from '../utils/createFavoriteRecipeObject';
 
-describe('Testes para a página de perfil', () => {
-  it('Verifica o redirecionamento para a página de detalhes da bebida', async () => {
-    render(<App />);   
 
-    const nameInput = screen.getByTestId('email-input');
-    const passwordInput = screen.getByTestId('password-input');
-    const loginBtn = screen.getByTestId('login-submit-btn');
 
-    userEvent.type(nameInput, 'teste@gmail.com');
-    userEvent.type(passwordInput, '123456789');
-    userEvent.click(loginBtn);
+describe('Testes para a página de Drink Details', () => {
+  it('Verifica o redirecionamento para a página de detalhes da Drinks', async () => {
+    const { history } = renderWithRouter('/drinks/17228')
+    jest.spyOn(Storage.prototype, 'setItem');
+    Storage.prototype.setItem = jest.fn();
 
-    expect(screen.getByText('Foods')).toBeInTheDocument();
+    expect(await screen.findByText('Addison')).toBeInTheDocument()
+    expect(await screen.findByText('Corba')).toBeInTheDocument()
+    const imgFav = screen.getByRole('img', {  name: /favorite icon/i})
+    expect(imgFav.src).toBe('http://localhost/whiteHeartIcon.svg')
+    userEvent.click(imgFav)
+    expect(imgFav.src).toBe('http://localhost/blackHeartIcon.svg')
+    expect(localStorage.setItem).toBeCalled()    
+    const favoriteRecipeObj = createFavoriteRecipeObject(favDrinks, 'drink');
 
-    const footerDrinkBtnRedirect = screen.getByTestId('drinks-bottom-btn');
-
-    userEvent.click(footerDrinkBtnRedirect);
-
-    expect(screen.getByText('Drinks')).toBeInTheDocument();
-
-    expect(await screen.findByTestId('0-card-img')).toBeInTheDocument();
-
-    userEvent.click(await screen.findByTestId('0-card-img'));
-
-    expect(await screen.findByRole('heading', { level: 1, name: /drink detail page/i }))
-
-    expect(await screen.findByText(/gg/i)).toBeInTheDocument();
-
+    expect(localStorage.setItem).toHaveBeenCalledWith('favoriteRecipes', JSON.stringify([favoriteRecipeObj]))   
   });
 });
