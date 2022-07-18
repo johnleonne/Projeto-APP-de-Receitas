@@ -27,6 +27,7 @@ export default function RecipeDetailsInteractions({ recipe, recipeType }) {
 
   function handleFavorite() {
     const favoriteRecipeObj = createFavoriteRecipeObject(recipe, recipeType);
+    console.log(recipe, recipeType);
 
     const currentFavoriteRecipesObj = JSON
       .parse(localStorage.getItem('favoriteRecipes')) ?? [];
