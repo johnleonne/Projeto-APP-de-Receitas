@@ -12,7 +12,9 @@ export default function StartRecipeButton({ recipe, recipeType }) {
 
   if (doneRecipes?.find((localStorageRecipe) => (
     Number(localStorageRecipe.id) === Number(recipe.idMeal ?? recipe.idDrink)
-  ))) return null;
+  ))) {
+    return null;
+  }
 
   function handleStartRecipeClick() {
     history.push(`/${recipeType}/${id}/in-progress`);
