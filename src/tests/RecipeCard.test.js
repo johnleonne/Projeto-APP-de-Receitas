@@ -1,14 +1,12 @@
 import React from 'react';
-import { screen, render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import RecipeCard from '../components/RecipeCard';
-import { drinkResponseById } from './Mocks/Drink';
+import { screen } from '@testing-library/react';
+import App from '../App';
+import renderWithRouter from './helpers/renderWithRouter';
 
 describe('RecipeCard Test', () => {
-    it('teste', () => {
-        render(<RecipeCard recipe={ drinkResponseById.drinks[0] } index={ 0 } />);
+  it('teste', async () => {
+    const { history } = renderWithRouter('/foods');
 
-        expect(screen.getByRole('heading', { level: 3, name: 'Addison' }))
-        
-    })
+    expect(await screen.findByTestId('0-recipe-card')).toBeInTheDocument();
+  })
 })
