@@ -8,6 +8,16 @@ export default function RecipeInProgress({ recipe }) {
     return Object.keys(recipe).filter((key) => key.includes('Ingredient'));
   }
 
+  function toggleStyle({ target }) {
+    const labelClassList = target.parentNode.classList;
+
+    if (labelClassList.contains('checked')) {
+      return labelClassList.remove('checked');
+    }
+
+    labelClassList.add('checked');
+  }
+
   return (
     <div className="recipe-in-progress-page-container">
       <h1 data-testid="recipe-title">{ recipe.strDrink || recipe.strMeal }</h1>
@@ -26,12 +36,13 @@ export default function RecipeInProgress({ recipe }) {
         return (
           <label
             key={ Math.random() }
-            htmlFor={ recipe.strDrink || recipe.strMeal }
+            htmlFor={ ingredientKey }
             data-testid={ `${index}-ingredient-step` }
           >
             <input
               type="checkbox"
-              id={ recipe.strDrink || recipe.strMeal }
+              id={ ingredientKey }
+              onClick={ (e) => toggleStyle(e) }
             />
             { recipe[ingredientKey] }
           </label>
