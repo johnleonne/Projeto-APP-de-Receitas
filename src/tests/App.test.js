@@ -1,9 +1,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from '../App';
+import renderWithRouter from './helpers/renderWithRouter';
 
 test('Farewell, front-end', () => {
-  render(<App />);
+  renderWithRouter('/');
   const linkElement = screen.getByText(/login/i);
   expect(linkElement).toBeInTheDocument();
 });
