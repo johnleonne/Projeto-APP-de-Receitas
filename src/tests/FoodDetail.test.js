@@ -1,6 +1,8 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/renderWithRouter';
+import { favMeal } from './Mocks/Meals';
+import createFavoriteRecipeObject from '../utils/createFavoriteRecipeObject';
 
 describe('Testes para a página de Foods', () => {
   it('Verifica o redirecionamento para a página de detalhes da Foods', async () => {
@@ -18,18 +20,21 @@ describe('Testes para a página de Foods', () => {
     expect(screen.getByText('Link copied!')).toBeInTheDocument()
   });
 
-  it('Testa a funcionalidade do botão "Iniciar Receita"',async () => {
+  it('Testa a funcionalidade do botão "Favoritar Receita"',async () => {
     const { history } = renderWithRouter('/foods/52795');
 
     jest.spyOn(Storage.prototype, 'setItem');
     Storage.prototype.setItem = jest.fn();
 
-    userEvent.click(await screen.findByTestId('start-recipe-btn'));
+    expect(await screen.findByText('Chicken Handi')).toBeInTheDocument()
+    const imgFav = screen.getByRole('img', {  name: /favorite icon/i})
+    expect(imgFav.src).toBe('http://localhost/whiteHeartIcon.svg')
+    userEvent.click(imgFav)
+    expect(imgFav.src).toBe('http://localhost/blackHeartIcon.svg')
+    expect(localStorage.setItem).toBeCalled()    
+    const favoriteRecipeObj = createFavoriteRecipeObject(favMeal, 'foods');
 
-    expect(await screen.findByRole('heading',{ name: /Food in progress details page/i})).toBeInTheDocument();
-  
-    const favoriteRecipeObj = createFavoriteRecipeObj(favMeal, 'meal');
-    expect(localStorage.setItem).toHaveBeenNthCalledWith('favoriteRecipes', JSON.stringify([favoriteRecipeObj]));
+    expect(localStorage.setItem).toHaveBeenCalledWith('favoriteRecipes', JSON.stringify([favoriteRecipeObj])) 
 
   })
 });
