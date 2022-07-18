@@ -2,3 +2,7 @@
   height: 280px;
   width: 280px;
 }
+
+.checked {
+  text-decoration: line-through;
+}
