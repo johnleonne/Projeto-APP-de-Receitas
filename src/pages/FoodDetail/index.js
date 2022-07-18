@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import FoodsService from '../../services/FoodsService';
 import RecipeCard from '../../components/RecipeCard';
+import StartRecipeButton from '../../components/StartRecipeButton';
 import './FoodDetail.css';
 
 export default function FoodDetail() {
@@ -110,6 +111,7 @@ export default function FoodDetail() {
             />
           ))}
         </section>
+        <StartRecipeButton />
       </div>
     </main>
   );

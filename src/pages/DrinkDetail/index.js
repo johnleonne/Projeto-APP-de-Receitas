@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import DrinksService from '../../services/DrinksService';
+import StartRecipeButton from '../../components/StartRecipeButton';
 import RecipeCard from '../../components/RecipeCard';
 import './DrinkDetail.css';
 
@@ -94,6 +95,7 @@ export default function DrinkDetail() {
             />
           ))}
         </div>
+        <StartRecipeButton />
       </div>
     </main>
   );
