@@ -71,13 +71,16 @@ export default function RecipeDetailsInteractions({ recipe, recipeType }) {
         Share
       </button>
       { isLinkCopied && <p>Link copied!</p>}
-      <img
-        role="button"
-        data-testid="favorite-btn"
+      <button
         onClick={ handleFavorite }
-        src={ isFav ? blackHeart : whiteHeart }
-        alt="favorite icon"
-      />
+        type="button"
+      >
+        <img
+          src={ isFav ? blackHeart : whiteHeart }
+          alt="favorite icon"
+          data-testid="favorite-btn"
+        />
+      </button>
     </div>
   );
 }
