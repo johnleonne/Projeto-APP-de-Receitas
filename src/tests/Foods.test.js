@@ -116,5 +116,21 @@ describe('Testes para a página de Foods', () => {
     })
   })
   
+  it('Testando pesquisa por Ingrediente', async () => {
+    const{history} = renderWithRouter('/foods')
+
+    const searchBtn = screen.getByTestId('search-top-btn');
+    userEvent.click(searchBtn);
+
+    const filterSearchBtn = screen.getByTestId('exec-search-btn');    
+    const searchInput = screen.getByTestId('search-input');
+    const ingredientRadio = screen.getByLabelText(/ingredient/i);
+
+    userEvent.click(ingredientRadio);
+    userEvent.type(searchInput,'chicken');
+    userEvent.click(filterSearchBtn);
+
+    expect(await screen.findByText(/brown stew chicken/i)).toBeInTheDocument()
+  })
 
 });
