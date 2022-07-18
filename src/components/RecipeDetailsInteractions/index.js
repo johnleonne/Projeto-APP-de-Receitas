@@ -1,10 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clipboardCopy from 'clipboard-copy';
 import createFavoriteRecipeObject from '../../utils/createFavoriteRecipeObject';
+import whiteHeart from '../../images/whiteHeartIcon.svg';
+import blackHeart from '../../images/blackHeartIcon.svg';
 
 export default function RecipeDetailsInteractions({ recipe, recipeType }) {
   const [isLinkCopied, setIsLinkCopied] = useState(false);
+  const [isFav, setIsFav] = useState(false);
+
+  useEffect(() => {
+    const currentFavoriteRecipesArray = JSON
+      .parse(localStorage.getItem('favoriteRecipes')) ?? [];
+
+    const favoriteRecipeAlreadyExists = currentFavoriteRecipesArray
+      .find((favRecipe) => (
+        Number(favRecipe.id) === Number(recipe.idDrink || recipe.idMeal)));
+
+    if (favoriteRecipeAlreadyExists) setIsFav(true);
+  }, [recipe]);
 
   function handleShare() {
     setIsLinkCopied(true);
@@ -12,7 +26,6 @@ export default function RecipeDetailsInteractions({ recipe, recipeType }) {
   }
 
   function handleFavorite() {
-    console.log(recipeType);
     const favoriteRecipeObj = createFavoriteRecipeObject(recipe, recipeType);
 
     const currentFavoriteRecipesObj = JSON
@@ -30,6 +43,8 @@ export default function RecipeDetailsInteractions({ recipe, recipeType }) {
         Number(favRevipe.id) !== Number(favoriteRecipeObj.id)
       ));
 
+      setIsFav(false);
+
       return localStorage
         .setItem(
           'favoriteRecipes',
@@ -42,6 +57,8 @@ export default function RecipeDetailsInteractions({ recipe, recipeType }) {
         'favoriteRecipes',
         JSON.stringify([...currentFavoriteRecipesObj, favoriteRecipeObj]),
       );
+
+    setIsFav(true);
   }
 
   return (
@@ -54,13 +71,13 @@ export default function RecipeDetailsInteractions({ recipe, recipeType }) {
         Share
       </button>
       { isLinkCopied && <p>Link copied!</p>}
-      <button
-        type="button"
+      <img
+        role="button"
         data-testid="favorite-btn"
         onClick={ handleFavorite }
-      >
-        Favorite
-      </button>
+        src={ isFav ? blackHeart : whiteHeart }
+        alt="favorite icon"
+      />
     </div>
   );
 }
