@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import FoodsService from '../../services/FoodsService';
 import RecipeCard from '../../components/RecipeCard';
 import StartRecipeButton from '../../components/StartRecipeButton';
@@ -9,6 +9,7 @@ export default function FoodDetail() {
   const [recipeDetail, setRecipeDetail] = useState([]);
   const [recommendedDrinks, setRecommendedDrinks] = useState([]);
   const { id } = useParams();
+  const { pathname } = useLocation();
 
   function filterIngredients(recipe) {
     return Object.keys(recipe)
@@ -111,7 +112,10 @@ export default function FoodDetail() {
             />
           ))}
         </section>
-        <StartRecipeButton />
+        <StartRecipeButton
+          recipe={ recipeDetail[0] ?? {} }
+          recipeType={ pathname.split('/').filter(Boolean)[0] }
+        />
       </div>
     </main>
   );
