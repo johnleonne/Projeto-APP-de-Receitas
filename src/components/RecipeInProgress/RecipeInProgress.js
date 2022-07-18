@@ -1,21 +1,41 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import RecipeDetailsInteractions from '../RecipeDetailsInteractions';
 import './RecipeInProgress.css';
 
 export default function RecipeInProgress({ recipe }) {
+  const [progressArray, setProgressArray] = useState([]);
+
+  useEffect(() => {
+    const currProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) || [];
+    setProgressArray(currProgress);
+  }, []);
+
+  useEffect(() => {
+    localStorage
+      .setItem('inProgressRecipes', JSON.stringify(Array.from(new Set(progressArray))));
+  }, [progressArray]);
+
   function getIngredientsKeys() {
     return Object.keys(recipe).filter((key) => key.includes('Ingredient'));
   }
 
-  function toggleStyle({ target }) {
-    const labelClassList = target.parentNode.classList;
+  function handleLabelCheck({ target }) {
+    const label = target.parentNode;
 
-    if (labelClassList.contains('checked')) {
-      return labelClassList.remove('checked');
+    if (label.classList.contains('checked')) {
+      label.classList.remove('checked');
+    } else {
+      label.classList.add('checked');
     }
 
-    labelClassList.add('checked');
+    if (progressArray.includes(target.value)) {
+      setProgressArray((prevState) => (
+        prevState.filter((ingredient) => ingredient !== target.value)
+      ));
+    } else {
+      setProgressArray((prevState) => [...prevState, target.value]);
+    }
   }
 
   return (
@@ -42,7 +62,9 @@ export default function RecipeInProgress({ recipe }) {
             <input
               type="checkbox"
               id={ ingredientKey }
-              onClick={ (e) => toggleStyle(e) }
+              onChange={ (e) => handleLabelCheck(e) }
+              value={ recipe[ingredientKey] }
+              defaultChecked={ progressArray.includes(recipe[ingredientKey]) }
             />
             { recipe[ingredientKey] }
           </label>
