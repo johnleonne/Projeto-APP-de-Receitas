@@ -1,11 +1,9 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import App from '../App';
+import { screen } from '@testing-library/react';
 import renderWithRouter from './helpers/renderWithRouter'
 import userEvent from '@testing-library/user-event';
-import { drinkResponseById, favDrinks } from './Mocks/Drink';
+import { favDrinks } from './Mocks/Drink';
 import createFavoriteRecipeObject from '../utils/createFavoriteRecipeObject';
-import { FavoriteRecipes } from '../pages';
 
 
 
