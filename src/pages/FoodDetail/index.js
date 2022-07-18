@@ -76,7 +76,10 @@ export default function FoodDetail() {
           alt={ recipeDetail[0]?.strMeal }
         />
 
-        <RecipeDetailsInteractions />
+        <RecipeDetailsInteractions
+          recipe={ recipeDetail[0] ?? {} }
+          recipeType={ pathname.split('/').filter(Boolean)[0] }
+        />
 
         <div className="ingredients-container">
           { recipeDetail[0]
