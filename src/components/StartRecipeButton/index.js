@@ -5,19 +5,29 @@ import './StartRecipeButton.css';
 
 export default function StartRecipeButton({ recipe, recipeType }) {
   const [doneRecipes] = useLocalStorage('doneRecipes');
+  const [inProgressRecipes] = useLocalStorage('inProgressRecipes');
+  console.log(recipeType);
 
   if (doneRecipes?.find((localStorageRecipe) => (
     Number(localStorageRecipe.id) === Number(recipe.idMeal ?? recipe.idDrink)
   ))) return null;
+
+  function isRecipeInProgress(recipeId) {
+    if (inProgressRecipes) {
+      return Object.keys(inProgressRecipes?.cocktails || {}).includes(recipeId)
+      || Object.keys(inProgressRecipes?.meals || {}).includes(recipeId);
+    }
+  }
 
   return (
     <button
       type="button"
       data-testid="start-recipe-btn"
       className="start-recipe-button"
-      onClick={ () => console.log(recipe, recipeType) }
     >
-      Start Recipe
+      { isRecipeInProgress(recipe.idMeal || recipe.idDrink)
+        ? 'Continue Recipe'
+        : 'Start Recipe' }
     </button>
   );
 }
