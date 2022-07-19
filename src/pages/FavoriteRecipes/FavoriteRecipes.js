@@ -3,17 +3,16 @@ import { Link } from 'react-router-dom';
 import clipboardCopy from 'clipboard-copy';
 import shareIcon from '../../images/shareIcon.svg';
 import Header from '../../components/Header';
-import './DoneRecipes.css';
 
-export default function DoneRecipes() {
-  const [doneRecipes, setDoneRecipes] = useState([]);
+export default function FavoriteRecipes() {
+  const [favRecipes, setFavRecipes] = useState([]);
   const [sharedRecipes, setSharedRecipes] = useState([]);
   const [currFilter, setCurrFilter] = useState('all');
 
   useEffect(() => {
-    const doneRecipesLocalStorage = JSON.parse(localStorage.getItem('doneRecipes'));
+    const doneRecipesLocalStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
 
-    setDoneRecipes(doneRecipesLocalStorage);
+    setFavRecipes(doneRecipesLocalStorage);
   }, []);
 
   const handleButtonClick = useCallback((event) => {
@@ -22,10 +21,10 @@ export default function DoneRecipes() {
   }, []);
 
   const filteredByTypeRecipes = useMemo(() => {
-    if (currFilter === 'all') return doneRecipes;
+    if (currFilter === 'all') return favRecipes;
 
     return doneRecipes.filter(({ type }) => type === currFilter);
-  }, [currFilter, doneRecipes]);
+  }, [currFilter, favRecipes]);
 
   const handleShareButtonClick = useCallback((recipe) => {
     if (recipe.type === 'food') {
@@ -38,9 +37,9 @@ export default function DoneRecipes() {
   }, []);
 
   return (
-    <main className="done-recipes-page-container">
-      <Header title="Done Recipes" />
-      <h1>Done recipes page</h1>
+    <main className="favorite-recipes-page-container">
+      <Header title="Favorite Recipes" />
+      <h1>Favorite recipes page</h1>
       <div className="buttons-container">
         <button
           type="button"
@@ -93,25 +92,6 @@ export default function DoneRecipes() {
                 {`${recipe.nationality} - ${recipe.category}`}
               </p>
             )}
-            <p data-testid={ `${index}-horizontal-done-date` }>{ recipe.doneDate }</p>
-            { recipe.tags.length > 2
-              ? recipe.tags.slice(0, 2).map((tag) => (
-                <p
-                  key={ Math.random() }
-                  data-testid={ `${index}-${tag}-horizontal-tag` }
-                >
-                  {tag}
-                </p>
-              ))
-              : recipe.tags.map((tag) => (
-                <p
-                  key={ Math.random() }
-                  data-testid={ `${index}-${tag}-horizontal-tag` }
-                  id="a"
-                >
-                  {tag}
-                </p>
-              ))}
             { sharedRecipes.includes(recipe.id) && <p>Link copied!</p> }
             <button
               type="button"

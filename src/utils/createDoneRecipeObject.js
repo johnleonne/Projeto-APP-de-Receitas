@@ -8,6 +8,6 @@ export default function createDoneRecipeObject(recipe, type) {
     name: recipe.strDrink ?? recipe.strMeal,
     image: recipe.strDrinkThumb ?? recipe.strMealThumb,
     doneDate: new Date(Date.now()).toLocaleDateString('pt-BR', { timeZone: 'UTC' }),
-    tags: strTags?.split(',') ?? [],
+    tags: recipe.strTags?.split(',') ?? [],
   });
 }

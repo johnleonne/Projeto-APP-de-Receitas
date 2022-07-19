@@ -22,7 +22,12 @@ export default function RecipeDetailsInteractions({ recipe, recipeType }) {
 
   function handleShare() {
     setIsLinkCopied(true);
-    clipboardCopy(window.location.href);
+    if (window.location.href.includes('/in-progress')) {
+      const parsedUrl = window.location.href.split('/in-progress');
+      clipboardCopy(parsedUrl[0]);
+    } else {
+      clipboardCopy(window.location.href);
+    }
   }
 
   function handleFavorite() {
