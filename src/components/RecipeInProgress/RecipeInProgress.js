@@ -7,13 +7,33 @@ export default function RecipeInProgress({ recipe }) {
   const [progressArray, setProgressArray] = useState([]);
 
   useEffect(() => {
-    const currProgress = JSON.parse(localStorage.getItem('inProgressRecipes')) || [];
-    setProgressArray(currProgress);
+    const currProgress = JSON.parse(localStorage.getItem('inProgressRecipes'))
+    || {
+      cocktails: {},
+      meals: {},
+    };
+
+    setProgressArray(
+      currProgress.cocktails[recipe.idDrink]
+      ?? currProgress.meals[recipe.idMeal] ?? [],
+    );
   }, []);
 
   useEffect(() => {
+    const currProgress = JSON.parse(localStorage.getItem('inProgressRecipes'))
+    || {
+      cocktails: {},
+      meals: {},
+    };
+
+    if (recipe.idDrink) {
+      currProgress.cocktails[recipe.idDrink] = Array.from(new Set(progressArray));
+    } else {
+      currProgress.meals[recipe.idMeal] = Array.from(new Set(progressArray));
+    }
+
     localStorage
-      .setItem('inProgressRecipes', JSON.stringify(Array.from(new Set(progressArray))));
+      .setItem('inProgressRecipes', JSON.stringify(currProgress));
   }, [progressArray]);
 
   function getIngredientsKeys() {
@@ -21,14 +41,6 @@ export default function RecipeInProgress({ recipe }) {
   }
 
   function handleLabelCheck({ target }) {
-    const label = target.parentNode;
-
-    if (label.classList.contains('checked')) {
-      label.classList.remove('checked');
-    } else {
-      label.classList.add('checked');
-    }
-
     if (progressArray.includes(target.value)) {
       setProgressArray((prevState) => (
         prevState.filter((ingredient) => ingredient !== target.value)
@@ -58,13 +70,14 @@ export default function RecipeInProgress({ recipe }) {
             key={ Math.random() }
             htmlFor={ ingredientKey }
             data-testid={ `${index}-ingredient-step` }
+            className={ progressArray?.includes(recipe[ingredientKey]) ? 'checked' : '' }
           >
             <input
               type="checkbox"
               id={ ingredientKey }
               onChange={ (e) => handleLabelCheck(e) }
               value={ recipe[ingredientKey] }
-              defaultChecked={ progressArray.includes(recipe[ingredientKey]) }
+              defaultChecked={ progressArray?.includes(recipe[ingredientKey]) }
             />
             { recipe[ingredientKey] }
           </label>
