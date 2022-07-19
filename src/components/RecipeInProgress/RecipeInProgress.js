@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import RecipeDetailsInteractions from '../RecipeDetailsInteractions';
 import './RecipeInProgress.css';
 
 export default function RecipeInProgress({ recipe }) {
   const [progressArray, setProgressArray] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     const currProgress = JSON.parse(localStorage.getItem('inProgressRecipes'))
@@ -50,6 +52,22 @@ export default function RecipeInProgress({ recipe }) {
     }
   }
 
+  function areAllCheckboxChecked() {
+    const notNullIngredientsLength = Object.entries(recipe)
+      .filter(([key]) => key.includes('Ingredient'))
+      .filter(([, value]) => value)
+      .length;
+
+    const checkedCheckboxesLength = Array
+      .from(document.querySelectorAll('input[type="checkbox"]:checked')).length;
+
+    return notNullIngredientsLength === checkedCheckboxesLength;
+  }
+
+  function handleFinishRecipe() {
+    history.push('/done-recipes');
+  }
+
   return (
     <div className="recipe-in-progress-page-container">
       <h1 data-testid="recipe-title">{ recipe.strDrink || recipe.strMeal }</h1>
@@ -84,7 +102,12 @@ export default function RecipeInProgress({ recipe }) {
         );
       })}
       <p data-testid="instructions">{ recipe.strInstructions }</p>
-      <button type="button" data-testid="finish-recipe-btn">
+      <button
+        type="button"
+        data-testid="finish-recipe-btn"
+        disabled={ !areAllCheckboxChecked() }
+        onClick={ handleFinishRecipe }
+      >
         Finish recipe
       </button>
     </div>
