@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import RecipeDetailsInteractions from '../RecipeDetailsInteractions';
 import './RecipeInProgress.css';
+import createDoneRecipeObject from '../../utils/createDoneRecipeObject';
 
 export default function RecipeInProgress({ recipe }) {
   const history = useHistory();
@@ -41,7 +42,17 @@ export default function RecipeInProgress({ recipe }) {
 
     const finishButton = document.querySelector('#finish-recipe-btn');
 
-    finishButton.addEventListener('click', () => history.push('/done-recipes'));
+    function handleFinishRecipes() {
+      const foodType = recipe.idDrink ? 'drinks' : '/foods';
+      const newDoneRecipe = createDoneRecipeObject(recipe, foodType);
+      const doneRecipesLocalStorage = JSON.parse(localStorage
+        .getItem('doneRecipes')) || [];
+      localStorage.setItem('doneRecipes', JSON
+        .stringify([...doneRecipesLocalStorage, newDoneRecipe]));
+      history.push('/done-recipes');
+    }
+
+    finishButton.addEventListener('click', handleFinishRecipes);
 
     if (ingredientsArray.length === Array.from(inputs).length) {
       finishButton.disabled = false;

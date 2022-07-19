@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, screen } from '@testing-library/react';
+import { cleanup, fireEvent, screen } from '@testing-library/react';
 import renderWithRouter from './helpers/renderWithRouter'
 import userEvent from '@testing-library/user-event';
 
@@ -29,6 +29,16 @@ describe('Testes para a página de DrinkProgessDetail', () => {
     // expect(finishButton.disabled).toBeFalse()
     userEvent.click(finishButton)
     expect(history.location.pathname).toBe('/done-recipes')
-
+    expect(await screen.findByText(/addison/i)).toBeInTheDocument()
+    expect(screen.getByRole('img', {  name: /share/i})).toBeInTheDocument()
+    Object.assign(window.navigator, {
+      clipboard: {
+        writeText: jest.fn().mockImplementation(() => Promise.resolve()),
+      },
+    });
+    userEvent.click(screen.getByRole('img', {  name: /share/i}))
+    expect(screen.getByText(/link copied!/i)).toBeInTheDocument()
+    userEvent.click(screen.getByRole('button', {  name: /foods/i}))
+    jest.fn(cleanup)
   });
 });
