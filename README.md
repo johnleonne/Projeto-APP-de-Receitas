@@ -1,4 +1,11 @@
-# 🚧 README em construção 🚧
+### Grupo 20 - Projeto em Grupo - Projeto APP de Receitas.
+
+- Eduardo Ferreira da Costa.
+- Genilson Monteiro da Silva.
+- Giovane Daniel Saes Sirqueira.
+- John Leonne de Sousa Aguiar.
+- Lucas de Souza Costa.
+- Lucas Ferreira Monteiro.
 
 <!-- Olá, Tryber!
 
