@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { GiForkKnifeSpoon } from 'react-icons/gi';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import isEmailValid from '../../utils/isEmailValid';
+import { FormContainer, LoginPageContainer } from './styles';
 
 export default function LoginForm() {
   const [userEmail, setUserEmail] = useState('');
@@ -39,21 +41,32 @@ export default function LoginForm() {
   }
 
   return (
-    <form>
-      <input type="text" data-testid="email-input" onChange={ handleEmailInputChange } />
-      <input
-        type="password"
-        data-testid="password-input"
-        onChange={ handlePasswordInputChange }
-      />
-      <button
-        type="button"
-        data-testid="login-submit-btn"
-        disabled={ !isLoginValid() }
-        onClick={ handleLoginButton }
-      >
-        Enter
-      </button>
-    </form>
+    <LoginPageContainer>
+      <FormContainer>
+        <GiForkKnifeSpoon color="#36C9C6" size={ 80 } />
+        <h1>
+          Recipes
+          <span>App</span>
+        </h1>
+        <input
+          type="text"
+          data-testid="email-input"
+          onChange={ handleEmailInputChange }
+        />
+        <input
+          type="password"
+          data-testid="password-input"
+          onChange={ handlePasswordInputChange }
+        />
+        <button
+          type="button"
+          data-testid="login-submit-btn"
+          disabled={ !isLoginValid() }
+          onClick={ handleLoginButton }
+        >
+          Enter
+        </button>
+      </FormContainer>
+    </LoginPageContainer>
   );
 }
