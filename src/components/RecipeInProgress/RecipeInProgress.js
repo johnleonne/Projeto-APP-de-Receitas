@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import RecipeDetailsInteractions from '../RecipeDetailsInteractions';
 import './RecipeInProgress.css';
 
 export default function RecipeInProgress({ recipe }) {
-  const [progressArray, setProgressArray] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
@@ -15,41 +14,63 @@ export default function RecipeInProgress({ recipe }) {
       meals: {},
     };
 
-    setProgressArray(
-      currProgress.cocktails[recipe.idDrink]
-      ?? currProgress.meals[recipe.idMeal] ?? [],
-    );
+    const inputs = Array
+      .from(document.querySelectorAll('input[type="checkbox"]'));
+
+    inputs.forEach((input) => {
+      if (
+        currProgress.cocktails[recipe.idDrink]?.includes(input.parentNode.innerText)
+        || currProgress.meals[recipe.idMeal]?.includes(input.parentNode.innerText)
+      ) {
+        input.checked = true;
+        input.parentNode.className = 'checked';
+      } else {
+        input.checked = false;
+      }
+    });
   }, []);
 
-  useEffect(() => {
+  function getIngredientsKeys() {
+    return Object.keys(recipe).filter((key) => key.includes('Ingredient'));
+  }
+
+  function getCheckedIngredientsArray() {
+    const arrayChecked = Array
+      .from(document.querySelectorAll('input[type="checkbox"]:checked'))
+      .map(({ value }) => value);
+
+    return arrayChecked;
+  }
+
+  function toggleLabelClass({ target }) {
+    const label = target.parentNode;
+
+    if (label.classList.contains('checked')) {
+      label.classList.remove('checked');
+    } else {
+      label.classList.add('checked');
+    }
+  }
+
+  function handleLabelCheck(e) {
     const currProgress = JSON.parse(localStorage.getItem('inProgressRecipes'))
     || {
       cocktails: {},
       meals: {},
     };
 
+    const ingredientsArray = getCheckedIngredientsArray();
+
     if (recipe.idDrink) {
-      currProgress.cocktails[recipe.idDrink] = Array.from(new Set(progressArray));
+      currProgress.cocktails[recipe.idDrink] = Array.from(new Set(ingredientsArray));
     } else {
-      currProgress.meals[recipe.idMeal] = Array.from(new Set(progressArray));
+      currProgress.meals[recipe.idMeal] = Array.from(new Set(ingredientsArray));
     }
 
     localStorage
       .setItem('inProgressRecipes', JSON.stringify(currProgress));
-  }, [progressArray]);
 
-  function getIngredientsKeys() {
-    return Object.keys(recipe).filter((key) => key.includes('Ingredient'));
-  }
-
-  function handleLabelCheck({ target }) {
-    if (progressArray.includes(target.value)) {
-      setProgressArray((prevState) => (
-        prevState.filter((ingredient) => ingredient !== target.value)
-      ));
-    } else {
-      setProgressArray((prevState) => [...prevState, target.value]);
-    }
+    toggleLabelClass(e);
   }
 
   function areAllCheckboxChecked() {
@@ -88,14 +109,20 @@ export default function RecipeInProgress({ recipe }) {
             key={ Math.random() }
             htmlFor={ ingredientKey }
             data-testid={ `${index}-ingredient-step` }
-            className={ progressArray?.includes(recipe[ingredientKey]) ? 'checked' : '' }
+            className={
+              getCheckedIngredientsArray()
+                .includes(recipe[ingredientKey]) ? 'checked' : ''
+            }
           >
             <input
               type="checkbox"
               id={ ingredientKey }
               onChange={ (e) => handleLabelCheck(e) }
               value={ recipe[ingredientKey] }
-              defaultChecked={ progressArray?.includes(recipe[ingredientKey]) }
+              checked={
+                getCheckedIngredientsArray()
+                  .includes(recipe[ingredientKey])
+              }
             />
             { recipe[ingredientKey] }
           </label>
