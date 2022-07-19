@@ -1,12 +1,47 @@
 import styled, { keyframes } from 'styled-components';
 
 const backgroundChange = keyframes`
-  from {
+  0% {
     background: #48CECB;
   }
 
-  to {
+  100% {
     background: #C6EAEF;
+  }
+`;
+
+const rotate = keyframes`
+  from {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-transform-origin: center center;
+            transform-origin: center center;
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  10% {
+    -webkit-transform: scale(0.91);
+            transform: scale(0.91);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  17% {
+    -webkit-transform: scale(0.98);
+            transform: scale(0.98);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
+  }
+  33% {
+    -webkit-transform: scale(0.87);
+            transform: scale(0.87);
+    -webkit-animation-timing-function: ease-in;
+            animation-timing-function: ease-in;
+  }
+  45% {
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-animation-timing-function: ease-out;
+            animation-timing-function: ease-out;
   }
 `;
 
@@ -50,7 +85,7 @@ export const FormContainer = styled.form`
     height: 40px;
     width: 80%;
     outline: none;
-    border: 2px solid rgba(0, 0, 0, 0.3);
+    border: 2px solid #e6e5e3;
     border-radius: 10px;
     transition: all 0.3s ease-in-out;
     padding: 0px 10px;
@@ -64,8 +99,8 @@ export const FormContainer = styled.form`
 
   button {
     margin-top: 1rem;
-    width: 10rem;
-    height: 2.5rem;
+    width: 12rem;
+    height: 2.7rem;
     border-style: none;
     border-radius: 5px;
     background: ${({ theme }) => theme.colors.main.dark};
@@ -88,5 +123,9 @@ export const FormContainer = styled.form`
       background: rgba(0, 0, 0, 0.2);
       cursor: not-allowed;
     }
+  }
+
+  .login-chef {
+    animation: ${rotate} 3s infinite;
   }
 `;

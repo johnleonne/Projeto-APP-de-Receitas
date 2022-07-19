@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { GiForkKnifeSpoon } from 'react-icons/gi';
+import { SiCodechef } from 'react-icons/si';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import isEmailValid from '../../utils/isEmailValid';
 import { FormContainer, LoginPageContainer } from './styles';
@@ -43,10 +43,10 @@ export default function LoginForm() {
   return (
     <LoginPageContainer>
       <FormContainer>
-        <GiForkKnifeSpoon color="#36C9C6" size={ 80 } />
+        <SiCodechef color="#36C9C6" size={ 90 } className="login-chef" />
         <h1>
-          Recipes
-          <span>App</span>
+          Code
+          <span>Chef</span>
         </h1>
         <input
           type="text"
