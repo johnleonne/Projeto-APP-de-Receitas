@@ -7,6 +7,14 @@ import './RecipeInProgress.css';
 export default function RecipeInProgress({ recipe }) {
   const history = useHistory();
 
+  function getCheckedIngredientsArray() {
+    const arrayChecked = Array
+      .from(document.querySelectorAll('input[type="checkbox"]:checked'))
+      .map(({ value }) => value);
+
+    return arrayChecked;
+  }
+
   useEffect(() => {
     const currProgress = JSON.parse(localStorage.getItem('inProgressRecipes'))
     || {
@@ -28,18 +36,22 @@ export default function RecipeInProgress({ recipe }) {
         input.checked = false;
       }
     });
+
+    const ingredientsArray = getCheckedIngredientsArray();
+
+    const finishButton = document.querySelector('#finish-recipe-btn');
+
+    finishButton.addEventListener('click', () => history.push('/done-recipes'));
+
+    if (ingredientsArray.length === Array.from(inputs).length) {
+      finishButton.disabled = false;
+    } else {
+      finishButton.disabled = true;
+    }
   }, []);
 
   function getIngredientsKeys() {
     return Object.keys(recipe).filter((key) => key.includes('Ingredient'));
-  }
-
-  function getCheckedIngredientsArray() {
-    const arrayChecked = Array
-      .from(document.querySelectorAll('input[type="checkbox"]:checked'))
-      .map(({ value }) => value);
-
-    return arrayChecked;
   }
 
   function toggleLabelClass({ target }) {
@@ -60,6 +72,15 @@ export default function RecipeInProgress({ recipe }) {
     };
 
     const ingredientsArray = getCheckedIngredientsArray();
+    const allCheckboxInputs = document.querySelectorAll('input[type="checkbox"]');
+
+    const finishButton = document.querySelector('#finish-recipe-btn');
+
+    if (ingredientsArray.length === Array.from(allCheckboxInputs).length) {
+      finishButton.disabled = false;
+    } else {
+      finishButton.disabled = true;
+    }
 
     if (recipe.idDrink) {
       currProgress.cocktails[recipe.idDrink] = Array.from(new Set(ingredientsArray));
@@ -83,10 +104,6 @@ export default function RecipeInProgress({ recipe }) {
       .from(document.querySelectorAll('input[type="checkbox"]:checked')).length;
 
     return notNullIngredientsLength === checkedCheckboxesLength;
-  }
-
-  function handleFinishRecipe() {
-    history.push('/done-recipes');
   }
 
   return (
@@ -119,7 +136,7 @@ export default function RecipeInProgress({ recipe }) {
               id={ ingredientKey }
               onChange={ (e) => handleLabelCheck(e) }
               value={ recipe[ingredientKey] }
-              checked={
+              defaultChecked={
                 getCheckedIngredientsArray()
                   .includes(recipe[ingredientKey])
               }
@@ -131,9 +148,9 @@ export default function RecipeInProgress({ recipe }) {
       <p data-testid="instructions">{ recipe.strInstructions }</p>
       <button
         type="button"
+        id="finish-recipe-btn"
         data-testid="finish-recipe-btn"
         disabled={ !areAllCheckboxChecked() }
-        onClick={ handleFinishRecipe }
       >
         Finish recipe
       </button>
