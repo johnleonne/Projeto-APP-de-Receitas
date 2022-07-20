@@ -7,6 +7,7 @@ import Footer from '../../components/Footer/Footer';
 import Recipes from '../../components/Recipes/Recipes';
 import RecipeCard from '../../components/RecipeCard';
 import CategoryButton from '../../components/CategoryButton';
+import { FoodsPageContainer, FoodCardsContainer, FilterButtonsContainer } from './styles';
 
 export default function Foods() {
   const [foodCategories, setFoodCategories] = useState(['All']);
@@ -58,25 +59,25 @@ export default function Foods() {
   }
 
   return (
-    <main className="foods-page-container">
+    <FoodsPageContainer>
       <Header title="Foods" haveSearch />
-      <div className="food-cards-container" style={ { marginTop: '4rem' } }>
-        <div className="filter-buttons-container">
+      <FoodCardsContainer>
+        <FilterButtonsContainer>
           { foodCategories.map((categoryName) => (
             <CategoryButton key={ categoryName } name={ categoryName } />
           ))}
-        </div>
+        </FilterButtonsContainer>
         <Recipes>
           {!!recipes && filterRecipes(recipes).map((recipe, index) => (
             <RecipeCard
-              key={ recipe.strMeal }
+              key={ Math.random() }
               recipe={ recipe }
               index={ index }
             />
           ))}
         </Recipes>
-      </div>
+      </FoodCardsContainer>
       <Footer />
-    </main>
+    </FoodsPageContainer>
   );
 }

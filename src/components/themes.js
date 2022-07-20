@@ -11,5 +11,13 @@ export default {
       blue: '#48CECB',
       light: '#f6f5fc',
     },
+    blues: {
+      dark: '#428DDB',
+      light: '#45BEE6',
+    },
+    greens: {
+      dark: '#42DB82',
+      light: '#45E6B5',
+    },
   },
 };

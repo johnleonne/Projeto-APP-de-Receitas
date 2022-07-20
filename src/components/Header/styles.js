@@ -22,11 +22,26 @@ export const HeaderIconsContainer = styled.div`
   align-items: center;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  padding: 0px 1.5rem;
+  justify-content: space-between;
   width: 100%;
 
   h1 {
     font-size: 30px;
     color: #fff;
+  }
+
+  .header-icon {
+    transition: all 0.2s ease-in-out;
+    
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.05);
+    }
+
+    &:active {
+      cursor: pointer;
+      transform: scale(1.05);
+    }
   }
 `;

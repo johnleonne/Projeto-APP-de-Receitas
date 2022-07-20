@@ -111,6 +111,17 @@ export const SearchInputContainer = styled.div`
     padding: 6.5px 10px;
     background: #96DFE1;
     border-radius: 0 5px 5px 0;
+    transition: 0.2s ease-in-out;
+
+    &:hover {
+      cursor: pointer;
+      transform: scale(1.05);
+    }
+
+    &:focus {
+      cursor: pointer;
+      transform: scale(1.05);
+    }
   }
 
   .search-input-icon {
@@ -125,5 +136,35 @@ export const SearchInputContainer = styled.div`
     border-radius: 5px 0 0 5px;
     transition: 0.2s ease-in-out;
     padding: 0px 10px;
+  }
+`;
+
+export const RadiosContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+
+  label {
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 16px;
+
+    input {
+      margin-right: 8px;
+      appearance: none;
+      width: 15px;
+      height: 15px;
+      background-color: #fff;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      transition: all 0.3s ease-in-out;
+
+      &:checked {
+        background-color: ${({ theme }) => theme.colors.blues.light};
+      }
+    }
   }
 `;

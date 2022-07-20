@@ -21,6 +21,7 @@ export default function Header({ title, haveSearch }) {
           color="#fff"
           role="button"
           size={ 30 }
+          className="header-icon"
           alt="profile icon"
           data-testid="profile-top-btn"
           onClick={ () => handleProfileClick() }
@@ -30,6 +31,7 @@ export default function Header({ title, haveSearch }) {
           <BiSearchAlt2
             color="#fff"
             role="button"
+            className="header-icon"
             size={ 35 }
             onClick={ () => setIsSearchInputVisible((prevState) => !prevState) }
             alt="profile icon"
@@ -37,9 +39,11 @@ export default function Header({ title, haveSearch }) {
           />
         )}
       </HeaderIconsContainer>
-      <div className="header-input-container">
-        <SearchBar visible={ isSearchInputVisible } />
-      </div>
+      { haveSearch && (
+        <div className="header-input-container">
+          <SearchBar visible={ isSearchInputVisible } />
+        </div>
+      )}
     </HeaderContainer>
   );
 }

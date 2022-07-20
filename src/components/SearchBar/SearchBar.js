@@ -5,7 +5,7 @@ import { FaSearch } from 'react-icons/fa';
 import FoodsService from '../../services/FoodsService';
 import DrinksService from '../../services/DrinksService';
 import { FoodsContext } from '../../context/FoodContext';
-import { SearchBarContainer, SearchInputContainer } from './styles';
+import { RadiosContainer, SearchBarContainer, SearchInputContainer } from './styles';
 
 export default function SearchBar({ visible }) {
   const [selectedRadio, setSelectedRadio] = useState(null);
@@ -104,7 +104,7 @@ export default function SearchBar({ visible }) {
         </div>
       </SearchInputContainer>
 
-      <div className="search-radios-container">
+      <RadiosContainer>
 
         <label htmlFor="ingredient">
           <input
@@ -142,7 +142,7 @@ export default function SearchBar({ visible }) {
           First Letter
         </label>
 
-      </div>
+      </RadiosContainer>
     </SearchBarContainer>
   );
 }
