@@ -68,7 +68,12 @@ export default function Drinks() {
       <DrinksCardsContainer>
         <FilterButtonsContainer>
           { drinksCategories.map((categoryName) => (
-            <CategoryButton key={ categoryName } name={ categoryName } />
+            <CategoryButton
+              key={ categoryName }
+              name={
+                categoryName.includes('/') ? categoryName.split('/')[0] : categoryName
+              }
+            />
           ))}
         </FilterButtonsContainer>
         <Recipes>

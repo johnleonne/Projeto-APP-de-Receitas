@@ -17,9 +17,8 @@ export const FoodCardsContainer = styled.section`
 
 export const FilterButtonsContainer = styled.div`
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-bottom: 2rem;
   flex-wrap: wrap;
+  margin-bottom: 2rem;
 `;
