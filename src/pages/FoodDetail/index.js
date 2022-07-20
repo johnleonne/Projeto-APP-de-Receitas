@@ -39,7 +39,7 @@ export default function FoodDetail() {
     return measuresObject;
   }
 
-  function generateYoutubeLink(youtubeLink) {
+  function generateEmbedYoutubeLink(youtubeLink) {
     if (!youtubeLink) return;
     const baseEmbedURL = 'https://www.youtube.com/embed/';
     const videoId = youtubeLink.split('v=')[1];
@@ -100,7 +100,7 @@ export default function FoodDetail() {
 
         <iframe
           data-testid="video"
-          src={ generateYoutubeLink(recipeDetail[0]?.strYoutube) }
+          src={ generateEmbedYoutubeLink(recipeDetail[0]?.strYoutube) }
           width="300"
           height="auto"
           title={ `${recipeDetail[0]?.strMeal} preparation` }
