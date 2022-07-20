@@ -21,6 +21,7 @@ export default styled.section`
     width: 200px;
     height: 200px;
     border-radius: 20%;
+    border: 1px solid #aba9a9;
   }
 
   h3 {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import themes from './components/themes';
+import themes from './styles/themes';
 import GlobalStyles from './styles/global';
 import {
   Login, Foods, Drinks, DoneRecipes, DrinkDetail, DrinkInProgressDetails,

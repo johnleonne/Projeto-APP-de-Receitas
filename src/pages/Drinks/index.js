@@ -3,8 +3,8 @@ import { useHistory } from 'react-router-dom';
 import { FoodsContext } from '../../context/FoodContext';
 import DrinksService from '../../services/DrinksService';
 import Header from '../../components/Header';
-import Footer from '../../components/Footer/Footer';
-import Recipes from '../../components/Recipes/Recipes';
+import Footer from '../../components/Footer';
+import Recipes from '../../components/Recipes';
 import RecipeCard from '../../components/RecipeCard';
 import CategoryButton from '../../components/CategoryButton';
 import {
