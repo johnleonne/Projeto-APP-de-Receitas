@@ -1,48 +1,46 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import './Header.css';
 import { useHistory } from 'react-router-dom';
-import profileIcon from '../../images/profileIcon.svg';
-import searchIcon from '../../images/searchIcon.svg';
+import { FaRegUser } from 'react-icons/fa';
+import { BiSearchAlt2 } from 'react-icons/bi';
 import SearchBar from '../SearchBar/SearchBar';
+import { HeaderContainer, HeaderIconsContainer } from './styles';
 
 export default function Header({ title, haveSearch }) {
   const history = useHistory();
-  const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);
+  const [isSearchInputVisible, setIsSearchInputVisible] = useState(true);
 
   function handleProfileClick() {
     history.push('/profile');
   }
 
   return (
-    <header data-testid="header">
-      <div className="header-icons-container">
-        <button type="button" onClick={ handleProfileClick }>
-          <img
-            src={ profileIcon }
-            alt="profile icon"
-            data-testid="profile-top-btn"
-          />
-        </button>
-
+    <HeaderContainer data-testid="header" isSearchInputVisible={ isSearchInputVisible }>
+      <HeaderIconsContainer>
+        <FaRegUser
+          color="#fff"
+          role="button"
+          size={ 30 }
+          alt="profile icon"
+          data-testid="profile-top-btn"
+          onClick={ () => handleProfileClick() }
+        />
         <h1 data-testid="page-title">{ title }</h1>
         { haveSearch && (
-          <button
-            type="button"
+          <BiSearchAlt2
+            color="#fff"
+            role="button"
+            size={ 35 }
             onClick={ () => setIsSearchInputVisible((prevState) => !prevState) }
-          >
-            <img
-              src={ searchIcon }
-              alt="profile icon"
-              data-testid="search-top-btn"
-            />
-          </button>
+            alt="profile icon"
+            data-testid="search-top-btn"
+          />
         )}
-      </div>
+      </HeaderIconsContainer>
       <div className="header-input-container">
-        { isSearchInputVisible && <SearchBar />}
+        <SearchBar visible={ isSearchInputVisible } />
       </div>
-    </header>
+    </HeaderContainer>
   );
 }
 

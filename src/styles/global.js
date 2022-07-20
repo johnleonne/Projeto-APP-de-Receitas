@@ -10,10 +10,9 @@ export default createGlobalStyle`
     input, button {
       font-family: ${({ theme }) => theme.fontFamily};
     }
-
   }
 
   body {
     background: ${({ theme }) => theme.colors.background.light};
   }
-  `;
+`;

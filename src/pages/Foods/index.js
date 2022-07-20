@@ -60,8 +60,7 @@ export default function Foods() {
   return (
     <main className="foods-page-container">
       <Header title="Foods" haveSearch />
-      <h1>Foods page</h1>
-      <div className="food-cards-container">
+      <div className="food-cards-container" style={ { marginTop: '4rem' } }>
         <div className="filter-buttons-container">
           { foodCategories.map((categoryName) => (
             <CategoryButton key={ categoryName } name={ categoryName } />

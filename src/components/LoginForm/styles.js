@@ -10,7 +10,7 @@ const backgroundChange = keyframes`
   }
 `;
 
-const rotate = keyframes`
+const pump = keyframes`
   from {
     -webkit-transform: scale(1);
             transform: scale(1);
@@ -126,6 +126,6 @@ export const FormContainer = styled.form`
   }
 
   .login-chef {
-    animation: ${rotate} 3s infinite;
+    animation: ${pump} 3s infinite;
   }
 `;

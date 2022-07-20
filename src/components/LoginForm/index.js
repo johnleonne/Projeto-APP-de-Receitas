@@ -23,13 +23,11 @@ export default function LoginForm() {
 
   function handleEmailInputChange({ target }) {
     const { value } = target;
-
     setUserEmail(value);
   }
 
   function handlePasswordInputChange({ target }) {
     const { value } = target;
-
     setUserPassword(value);
   }
 
