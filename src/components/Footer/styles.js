@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const FooterContainer = styled.footer`
   align-items: center;
@@ -15,7 +15,6 @@ export const FooterContainer = styled.footer`
   p {
       font-size: 1rem;
       margin-left: 8px;
-      /* color: ${({ theme }) => theme.colors.main.dark}; */
       color: #fff;
       font-weight: 600;
     }
@@ -30,15 +29,23 @@ export const FooterContainer = styled.footer`
     transition: all 0.4s ease-in-out;
 
     &.drinks {
-      border-bottom: 5px solid ${({ theme, pathname }) => (
+      border-bottom: 3px solid ${({ theme, pathname }) => (
         pathname === '/drinks' ? '#fff' : theme.colors.main.dark
       )};
+      ${({ pathname }) => pathname === '/drinks' && css`
+        -webkit-box-shadow: inset 0px -2px 27px 1px rgba(255,255,255,0.42); 
+        box-shadow: inset 0px -2px 27px 1px rgba(255,255,255,0.42);
+      `}
     }
 
     &.foods {
-      border-bottom: 5px solid ${({ theme, pathname }) => (
+      border-bottom: 3px solid ${({ theme, pathname }) => (
         pathname === '/foods' ? '#fff' : theme.colors.main.dark
       )};
+      ${({ pathname }) => pathname === '/foods' && css`
+        -webkit-box-shadow: inset 0px -2px 27px 1px rgba(255,255,255,0.42); 
+        box-shadow: inset 0px -2px 27px 1px rgba(255,255,255,0.42);
+      `}
     }
 
     .reverse-icon {
