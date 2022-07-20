@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import './RecipeCard.css';
+import RecipeCardContainer from './styles';
 
 export default function RecipeCard({ recipe, index, dataTestId, recomendation }) {
   const redirectEndpoint = recipe.idMeal
@@ -12,11 +12,9 @@ export default function RecipeCard({ recipe, index, dataTestId, recomendation })
     <Link
       to={ redirectEndpoint }
       className="recipe-anchor"
+      style={ { textDecoration: 'none' } }
     >
-      <section
-        data-testid={ dataTestId ?? `${index}-recipe-card` }
-        className="recipe-card"
-      >
+      <RecipeCardContainer data-testid={ dataTestId ?? `${index}-recipe-card` }>
         <img
           src={ recipe.strMealThumb ?? recipe.strDrinkThumb }
           alt={ recipe.strMeal ?? recipe.strDrink }
@@ -29,7 +27,7 @@ export default function RecipeCard({ recipe, index, dataTestId, recomendation })
         >
           { recipe.strMeal ?? recipe.strDrink }
         </h3>
-      </section>
+      </RecipeCardContainer>
     </Link>
   );
 }
