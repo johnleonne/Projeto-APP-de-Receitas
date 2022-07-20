@@ -63,7 +63,6 @@ export default function FoodDetail() {
 
   return (
     <main className="food-detail-page-container">
-      <h1>Food detail page</h1>
       <div className="food-detail-container">
 
         <h3 data-testid="recipe-title">{ recipeDetail[0]?.strMeal }</h3>
