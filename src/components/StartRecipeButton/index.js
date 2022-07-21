@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import useLocalStorage from '../../hooks/useLocalStorage';
-import './StartRecipeButton.css';
+import StyledStartRecipeButton from './styles';
 
 export default function StartRecipeButton({ recipe, recipeType }) {
   const [doneRecipes] = useLocalStorage('doneRecipes');
@@ -28,16 +28,16 @@ export default function StartRecipeButton({ recipe, recipeType }) {
   }
 
   return (
-    <button
+    <StyledStartRecipeButton
       type="button"
       data-testid="start-recipe-btn"
       className="start-recipe-button"
-      onClick={ handleStartRecipeClick }
+      onClick={ () => handleStartRecipeClick() }
     >
       { isRecipeInProgress(recipe.idMeal || recipe.idDrink)
         ? 'Continue Recipe'
         : 'Start Recipe' }
-    </button>
+    </StyledStartRecipeButton>
   );
 }
 
