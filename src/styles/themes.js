@@ -2,6 +2,7 @@ export default {
   fontFamily: 'Sora, sans-serif',
   colors: {
     main: {
+      darker: '#48CECB',
       dark: '#36C9C6',
       darkLighter: '#66D4D4',
       main: '#96DFE1',

@@ -1,5 +1,5 @@
 .start-recipe-button {
-  bottom: 0;
   position: fixed;
-  right: 50px;
+  bottom: 1rem;
+  right: 2rem;
 }

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clipboardCopy from 'clipboard-copy';
+import { BiShare } from 'react-icons/bi';
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import createFavoriteRecipeObject from '../../utils/createFavoriteRecipeObject';
-import whiteHeart from '../../images/whiteHeartIcon.svg';
-import blackHeart from '../../images/blackHeartIcon.svg';
+import InteractionButtonsContainer from './styles';
 
 export default function RecipeDetailsInteractions({ recipe, recipeType }) {
   const [isLinkCopied, setIsLinkCopied] = useState(false);
@@ -21,18 +22,24 @@ export default function RecipeDetailsInteractions({ recipe, recipeType }) {
   }, [recipe]);
 
   function handleShare() {
+    const twoSeconds = 2000;
+
     setIsLinkCopied(true);
+
     if (window.location.href.includes('/in-progress')) {
       const parsedUrl = window.location.href.split('/in-progress');
       clipboardCopy(parsedUrl[0]);
     } else {
       clipboardCopy(window.location.href);
     }
+
+    setTimeout(() => {
+      setIsLinkCopied(false);
+    }, twoSeconds);
   }
 
   function handleFavorite() {
     const favoriteRecipeObj = createFavoriteRecipeObject(recipe, recipeType);
-    console.log(recipe, recipeType);
 
     const currentFavoriteRecipesObj = JSON
       .parse(localStorage.getItem('favoriteRecipes')) ?? [];
@@ -68,26 +75,36 @@ export default function RecipeDetailsInteractions({ recipe, recipeType }) {
   }
 
   return (
-    <div className="interaction-buttons">
-      <button
-        type="button"
+    <InteractionButtonsContainer isLinkCopied={ isLinkCopied }>
+      <BiShare
+        size={ 40 }
+        color="#000"
+        role="button"
         data-testid="share-btn"
-        onClick={ handleShare }
-      >
-        Share
-      </button>
-      { isLinkCopied && <p>Link copied!</p>}
-      <button
-        onClick={ handleFavorite }
-        type="button"
-      >
-        <img
-          src={ isFav ? blackHeart : whiteHeart }
-          alt="favorite icon"
-          data-testid="favorite-btn"
-        />
-      </button>
-    </div>
+        onClick={ () => handleShare() }
+        className="share-button"
+      />
+      { isLinkCopied && <p className="copied-msg">Link copied!</p>}
+      { isFav
+        ? (
+          <AiOutlineHeart
+            size={ 40 }
+            onClick={ () => handleFavorite() }
+            alt="favorite icon"
+            data-testid="favorite-btn"
+            className="favorite-button"
+          />
+        )
+        : (
+          <AiFillHeart
+            size={ 40 }
+            onClick={ () => handleFavorite() }
+            alt="favorite icon"
+            data-testid="favorite-btn"
+            className="filled-favorite-button"
+          />
+        )}
+    </InteractionButtonsContainer>
   );
 }
 

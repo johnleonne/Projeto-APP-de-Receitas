@@ -1,14 +1,14 @@
 import React from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { GiMeal, GiWineBottle } from 'react-icons/gi';
-import { FooterContainer } from './styles';
+import { FooterContainer, StyledLink } from './styles';
 
 export default function Footer() {
   const { pathname } = useLocation();
 
   return (
     <FooterContainer data-testid="footer" pathname={ pathname }>
-      <Link to="/foods" className="foods">
+      <StyledLink to="/foods" className="foods" pathname={ pathname }>
         <GiMeal
           role="button"
           color="#fff"
@@ -17,8 +17,8 @@ export default function Footer() {
           data-testid="food-bottom-btn"
         />
         <p>Foods</p>
-      </Link>
-      <Link to="/drinks" className="drinks">
+      </StyledLink>
+      <StyledLink to="/drinks" className="drinks" pathname={ pathname }>
         <GiWineBottle
           className="reverse-icon"
           role="button"
@@ -28,7 +28,7 @@ export default function Footer() {
           data-testid="drinks-bottom-btn"
         />
         <p>Drinks</p>
-      </Link>
+      </StyledLink>
     </FooterContainer>
   );
 }

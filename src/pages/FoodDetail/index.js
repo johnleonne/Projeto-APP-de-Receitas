@@ -4,7 +4,7 @@ import FoodsService from '../../services/FoodsService';
 import RecipeCard from '../../components/RecipeCard';
 import StartRecipeButton from '../../components/StartRecipeButton';
 import RecipeDetailsInteractions from '../../components/RecipeDetailsInteractions';
-import './FoodDetail.css';
+import * as Styles from './styles';
 
 export default function FoodDetail() {
   const [recipeDetail, setRecipeDetail] = useState([]);
@@ -62,65 +62,83 @@ export default function FoodDetail() {
   }, []);
 
   return (
-    <main className="food-detail-page-container">
-      <div className="food-detail-container">
+    <Styles.RecipeDetailsPageContainer>
+      <Styles.RecipeDetailsContainer>
 
-        <h3 data-testid="recipe-title">{ recipeDetail[0]?.strMeal }</h3>
-
-        <p data-testid="recipe-category">{ recipeDetail[0]?.strCategory }</p>
-
-        <img
-          data-testid="recipe-photo"
-          src={ recipeDetail[0]?.strMealThumb }
-          alt={ recipeDetail[0]?.strMeal }
+        <Styles.RecipeImageHeader
+          imgUrl={ recipeDetail[0]?.strMealThumb }
         />
+
+        <h1 data-testid="recipe-title">{ recipeDetail[0]?.strMeal }</h1>
+
+        <p data-testid="recipe-category" className="category">
+          { `Category: ${recipeDetail[0]?.strCategory ?? ''}` }
+        </p>
 
         <RecipeDetailsInteractions
           recipe={ recipeDetail[0] ?? {} }
           recipeType={ pathname.split('/').filter(Boolean)[0] }
         />
 
-        <div className="ingredients-container">
+        <Styles.RecipeIngredientsContainer>
+          <Styles.SeparationLine />
+          <h3 className="ingredients-title">
+            Ingredients
+          </h3>
           { recipeDetail[0]
           && Object.entries(generateMeasuresObject(recipeDetail[0]))
             .map((ingredientAndMeasure, index) => (
               <p
                 key={ Math.random() }
                 data-testid={ `${index}-ingredient-name-and-measure` }
+                className="ingredient-and-measure"
               >
-                { `${ingredientAndMeasure[1]} ${ingredientAndMeasure[0]}` }
+                { `${ingredientAndMeasure[1]} - ${ingredientAndMeasure[0]}` }
               </p>
             ))}
-        </div>
+          <Styles.SeparationLine />
+        </Styles.RecipeIngredientsContainer>
 
-        <div className="instructions-container">
-          <p data-testid="instructions">{recipeDetail[0]?.strInstructions}</p>
-        </div>
+        <Styles.InstructionsContainer>
+          <h3 className="instructions-title">Instructions</h3>
 
-        <iframe
-          data-testid="video"
-          src={ generateEmbedYoutubeLink(recipeDetail[0]?.strYoutube) }
-          width="300"
-          height="auto"
-          title={ `${recipeDetail[0]?.strMeal} preparation` }
-        />
+          <p data-testid="instructions" className="instructions">
+            {recipeDetail[0]?.strInstructions}
+          </p>
 
-        <section className="recommendations-container">
-          { recommendedDrinks.map((recipe, index) => (
-            <RecipeCard
-              recomendation
-              key={ Math.random() }
-              recipe={ recipe }
-              index={ index }
-              dataTestId={ `${index}-recomendation-card` }
-            />
-          ))}
-        </section>
+          <iframe
+            data-testid="video"
+            src={ generateEmbedYoutubeLink(recipeDetail[0]?.strYoutube) }
+            width="300"
+            height="auto"
+            title={ `${recipeDetail[0]?.strMeal} preparation` }
+          />
+        </Styles.InstructionsContainer>
+
+        <Styles.SeparationLine />
+
+        <Styles.RecommendationsContainer>
+          <h3 className="recommendations-title">
+            Recommended Drinks
+          </h3>
+          <div className="recommendations-scroll">
+            { recommendedDrinks.map((recipe, index) => (
+              <RecipeCard
+                recomendation
+                key={ Math.random() }
+                recipe={ recipe }
+                index={ index }
+                dataTestId={ `${index}-recomendation-card` }
+              />
+            ))}
+          </div>
+        </Styles.RecommendationsContainer>
+
         <StartRecipeButton
           recipe={ recipeDetail[0] ?? {} }
           recipeType={ pathname.split('/').filter(Boolean)[0] }
         />
-      </div>
-    </main>
+      </Styles.RecipeDetailsContainer>
+    </Styles.RecipeDetailsPageContainer>
   );
 }

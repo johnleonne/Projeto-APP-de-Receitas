@@ -1,25 +1,8 @@
 /* eslint-disable indent */
 import styled, { css } from 'styled-components';
+import { Link } from 'react-router-dom';
 
-export const FooterContainer = styled.footer`
-  align-items: center;
-  background: white;
-  bottom: 0;
-  display: flex;
-  justify-content: space-around;
-  position: fixed;
-  height: 3.5rem;
-  width: 100%;
-  background: ${({ theme }) => theme.colors.main.dark};
-
-  p {
-      font-size: 1rem;
-      margin-left: 8px;
-      color: #fff;
-      font-weight: 600;
-    }
-
-  a {
+export const StyledLink = styled(Link)`
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -50,8 +33,24 @@ export const FooterContainer = styled.footer`
 
     .reverse-icon {
       transform: rotateY(180deg);
-    }
-  }
+    } 
 `;
 
-export const a = 1;
+export const FooterContainer = styled.footer`
+  align-items: center;
+  background: white;
+  bottom: 0;
+  display: flex;
+  justify-content: space-around;
+  position: fixed;
+  height: 3.5rem;
+  width: 100%;
+  background: ${({ theme }) => theme.colors.main.dark};
+
+  p {
+      font-size: 1rem;
+      margin-left: 8px;
+      color: #fff;
+      font-weight: 600;
+    }
+`;
