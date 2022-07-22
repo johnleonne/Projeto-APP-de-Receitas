@@ -1,13 +1,11 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import clipboardCopy from 'clipboard-copy';
-import shareIcon from '../../images/shareIcon.svg';
 import Header from '../../components/Header';
-import './DoneRecipes.css';
+import FavoriteHeart from '../../components/FavoriteHeart';
+import * as Styles from './styles';
 
 export default function DoneRecipes() {
   const [doneRecipes, setDoneRecipes] = useState([]);
-  const [sharedRecipes, setSharedRecipes] = useState([]);
   const [currFilter, setCurrFilter] = useState('all');
 
   useEffect(() => {
@@ -27,24 +25,14 @@ export default function DoneRecipes() {
     return doneRecipes.filter(({ type }) => type === currFilter);
   }, [currFilter, doneRecipes]);
 
-  const handleShareButtonClick = useCallback((recipe) => {
-    if (recipe.type === 'food') {
-      clipboardCopy(`http://localhost:3000/foods/${recipe.id}`);
-    } else {
-      clipboardCopy(`http://localhost:3000/drinks/${recipe.id}`);
-    }
-
-    setSharedRecipes((prevState) => [...prevState, recipe.id]);
-  }, []);
-
   return (
-    <main className="done-recipes-page-container">
+    <Styles.DoneRecipesPageContainer>
       <Header title="Done Recipes" />
-      <h1>Done recipes page</h1>
-      <div className="buttons-container">
+      <Styles.ButtonsContainer currFilter={ currFilter }>
         <button
           type="button"
           value="all"
+          className="all"
           data-testid="filter-by-all-btn"
           onClick={ (e) => handleButtonClick(e) }
         >
@@ -53,6 +41,7 @@ export default function DoneRecipes() {
         <button
           type="button"
           value="food"
+          className="food"
           data-testid="filter-by-food-btn"
           onClick={ (e) => handleButtonClick(e) }
         >
@@ -61,70 +50,43 @@ export default function DoneRecipes() {
         <button
           type="button"
           value="drink"
+          className="drink"
           data-testid="filter-by-drink-btn"
           onClick={ (e) => handleButtonClick(e) }
         >
           Drinks
         </button>
-      </div>
-      { filteredByTypeRecipes
-        && filteredByTypeRecipes.map((recipe, index) => (
-          <div key={ Math.random() } className="done-recipe-container">
-            <Link
-              to={ recipe.type === 'food' ? `foods/${recipe.id}` : `drinks/${recipe.id}` }
-            >
-              <img
-                src={ recipe.image }
-                alt={ recipe.name }
-                data-testid={ `${index}-horizontal-image` }
+      </Styles.ButtonsContainer>
+      <Styles.DoneRecipesContainer>
+        { filteredByTypeRecipes
+          && filteredByTypeRecipes.map((recipe, index) => (
+            <Styles.DoneRecipeCard key={ Math.random() }>
+
+              <Link
+                to={ recipe.type === 'food'
+                  ? `foods/${recipe.id}` : `drinks/${recipe.id}` }
+              >
+                <img
+                  src={ recipe.image }
+                  alt={ recipe.name }
+                  data-testid={ `${index}-horizontal-image` }
+                />
+
+                <h2 data-testid={ `${index}-horizontal-name` }>
+                  { recipe.name }
+                </h2>
+              </Link>
+
+              <p data-testid={ `${index}-horizontal-done-date` }>{ recipe.doneDate }</p>
+
+              <FavoriteHeart
+                recipeId={ recipe.id }
+                recipeType={ recipe.type }
               />
-              <h1 data-testid={ `${index}-horizontal-name` }>
-                { recipe.name }
-              </h1>
-            </Link>
-            <h3 data-testid={ `${index}-horizontal-top-text` }>
-              { recipe.type === 'food'
-                ? `${recipe.nationality} - ${recipe.category}`
-                : recipe.alcoholicOrNot }
-            </h3>
-            { recipe.type === 'food'
-            && (
-              <p>
-                {`${recipe.nationality} - ${recipe.category}`}
-              </p>
-            )}
-            <p data-testid={ `${index}-horizontal-done-date` }>{ recipe.doneDate }</p>
-            { recipe.tags.length > 2
-              ? recipe.tags.slice(0, 2).map((tag) => (
-                <p
-                  key={ Math.random() }
-                  data-testid={ `${index}-${tag}-horizontal-tag` }
-                >
-                  {tag}
-                </p>
-              ))
-              : recipe.tags.map((tag) => (
-                <p
-                  key={ Math.random() }
-                  data-testid={ `${index}-${tag}-horizontal-tag` }
-                  id="a"
-                >
-                  {tag}
-                </p>
-              ))}
-            { sharedRecipes.includes(recipe.id) && <p>Link copied!</p> }
-            <button
-              type="button"
-              onClick={ () => handleShareButtonClick(recipe) }
-            >
-              <img
-                data-testid={ `${index}-horizontal-share-btn` }
-                src={ shareIcon }
-                alt="share"
-              />
-            </button>
-          </div>
-        ))}
-    </main>
+            </Styles.DoneRecipeCard>
+          ))}
+      </Styles.DoneRecipesContainer>
+
+    </Styles.DoneRecipesPageContainer>
   );
 }

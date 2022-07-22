@@ -87,21 +87,21 @@ export default function RecipeDetailsInteractions({ recipe, recipeType }) {
       { isLinkCopied && <p className="copied-msg">Link copied!</p>}
       { isFav
         ? (
-          <AiOutlineHeart
-            size={ 40 }
-            onClick={ () => handleFavorite() }
-            alt="favorite icon"
-            data-testid="favorite-btn"
-            className="favorite-button"
-          />
-        )
-        : (
           <AiFillHeart
             size={ 40 }
             onClick={ () => handleFavorite() }
             alt="favorite icon"
             data-testid="favorite-btn"
             className="filled-favorite-button"
+          />
+        )
+        : (
+          <AiOutlineHeart
+            size={ 40 }
+            onClick={ () => handleFavorite() }
+            alt="favorite icon"
+            data-testid="favorite-btn"
+            className="favorite-button"
           />
         )}
     </InteractionButtonsContainer>
