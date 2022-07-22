@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
 export const ProfilePageContainer = styled.main`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
 `;
 
 export const ProfileContentContainer = styled.section`
-  margin-top: 10rem;
+  margin-top: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;

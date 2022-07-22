@@ -9,7 +9,7 @@ export default function DoneRecipes() {
   const [currFilter, setCurrFilter] = useState('all');
 
   useEffect(() => {
-    const doneRecipesLocalStorage = JSON.parse(localStorage.getItem('doneRecipes'));
+    const doneRecipesLocalStorage = JSON.parse(localStorage.getItem('doneRecipes')) || [];
 
     setDoneRecipes(doneRecipesLocalStorage);
   }, []);
