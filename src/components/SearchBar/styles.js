@@ -109,7 +109,7 @@ export const SearchInputContainer = styled.div`
     align-items: center;
     justify-content: center;
     padding: 6.5px 10px;
-    background: #96DFE1;
+    background: ${({ theme }) => theme.colors.main.darker};
     border-radius: 0 5px 5px 0;
     transition: 0.2s ease-in-out;
 
@@ -163,7 +163,7 @@ export const RadiosContainer = styled.div`
       transition: all 0.3s ease-in-out;
 
       &:checked {
-        background-color: ${({ theme }) => theme.colors.blues.light};
+        background-color: ${({ theme }) => theme.colors.main.darker};
       }
     }
   }

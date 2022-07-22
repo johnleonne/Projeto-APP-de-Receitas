@@ -25,10 +25,12 @@ export const RecipeDetailsContainer = styled.div`
   h1 {
     font-weight: 600;
     font-size: 40px;
+    text-align: center;
     color: ${({ theme }) => theme.colors.main.dark};
   }
 
   .alcoholic {
+    margin-top: 1rem;
     font-size: 18px;
     font-weight: 600;
     color: ${({ theme }) => theme.colors.main.darkLighter};

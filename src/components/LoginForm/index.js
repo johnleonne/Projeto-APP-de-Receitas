@@ -41,7 +41,7 @@ export default function LoginForm() {
   return (
     <LoginPageContainer>
       <FormContainer>
-        <SiCodechef color="#36C9C6" size={ 90 } className="login-chef" />
+        <SiCodechef color="#f00" size={ 90 } className="login-chef" />
         <h1>
           Code
           <span>Chef</span>

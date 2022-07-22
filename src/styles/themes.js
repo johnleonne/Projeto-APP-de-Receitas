@@ -2,23 +2,19 @@ export default {
   fontFamily: 'Sora, sans-serif',
   colors: {
     main: {
-      darker: '#48CECB',
-      dark: '#36C9C6',
-      darkLighter: '#66D4D4',
-      main: '#96DFE1',
-      light: '#C6EAEF',
+      darker: '#CC0000',
+      dark: '#fd3e3f',
+      darkLighter: '#fc5d5f',
+      main: '#fb7b7e',
+      light: '#f9b9bd',
     },
     background: {
-      blue: '#48CECB',
+      blue: '#FF1717',
       light: '#f6f5fc',
     },
-    blues: {
-      dark: '#428DDB',
-      light: '#45BEE6',
-    },
-    greens: {
-      dark: '#42DB82',
-      light: '#45E6B5',
+    pinks: {
+      dark: '#E80C7A',
+      light: '#FF0DFF',
     },
   },
 };

@@ -7,10 +7,22 @@ export default styled.div`
   
   .share-button, .favorite-button {
     fill: ${({ theme }) => theme.colors.main.main};
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
   }
 
   .filled-favorite-button {
     fill: #FF2C55;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
   }
 
   .copied-msg {

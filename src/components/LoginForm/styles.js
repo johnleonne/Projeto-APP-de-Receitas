@@ -2,11 +2,11 @@ import styled, { keyframes } from 'styled-components';
 
 const backgroundChange = keyframes`
   0% {
-    background: #48CECB;
+    background: #f00;
   }
 
   100% {
-    background: #C6EAEF;
+    background: #f9b9bd;
   }
 `;
 
