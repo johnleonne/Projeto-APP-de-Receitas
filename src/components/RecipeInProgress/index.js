@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import RecipeDetailsInteractions from '../RecipeDetailsInteractions';
-import './RecipeInProgress.css';
 import createDoneRecipeObject from '../../utils/createDoneRecipeObject';
+import * as Styles from './styles';
 
 export default function RecipeInProgress({ recipe }) {
   const history = useHistory();
@@ -118,14 +118,20 @@ export default function RecipeInProgress({ recipe }) {
   }
 
   return (
-    <div className="recipe-in-progress-page-container">
-      <h1 data-testid="recipe-title">{ recipe.strDrink || recipe.strMeal }</h1>
-      <h3 data-testid="recipe-category">{ recipe.strAlcoholic || recipe.strCategory }</h3>
-      <img
+    <Styles.RecipeInProgressContainer>
+      <Styles.RecipeImageHeader
+        imgUrl={ recipe.strDrinkThumb || recipe.strMealThumb }
         data-testid="recipe-photo"
-        src={ recipe.strDrinkThumb || recipe.strMealThumb }
-        alt={ recipe.strDrink || recipe.strMeal }
       />
+
+      <h1 data-testid="recipe-title">
+        { recipe.strDrink || recipe.strMeal }
+      </h1>
+
+      <h3 data-testid="recipe-category">
+        { recipe.strAlcoholic || recipe.strCategory }
+      </h3>
+
       <RecipeDetailsInteractions
         recipe={ recipe }
         recipeType={ recipe.strDrink ? 'drinks' : 'foods' }
@@ -133,7 +139,7 @@ export default function RecipeInProgress({ recipe }) {
       {getIngredientsKeys().map((ingredientKey, index) => {
         if (!recipe[ingredientKey]) return;
         return (
-          <label
+          <Styles.IngredientLabel
             key={ Math.random() }
             htmlFor={ ingredientKey }
             data-testid={ `${index}-ingredient-step` }
@@ -153,7 +159,7 @@ export default function RecipeInProgress({ recipe }) {
               }
             />
             { recipe[ingredientKey] }
-          </label>
+          </Styles.IngredientLabel>
         );
       })}
       <p data-testid="instructions">{ recipe.strInstructions }</p>
@@ -165,7 +171,7 @@ export default function RecipeInProgress({ recipe }) {
       >
         Finish recipe
       </button>
-    </div>
+    </Styles.RecipeInProgressContainer>
   );
 }
 
