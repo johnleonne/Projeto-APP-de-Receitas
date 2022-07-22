@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import RecipeDetailsInteractions from '../RecipeDetailsInteractions';
 import createDoneRecipeObject from '../../utils/createDoneRecipeObject';
+import BackArrow from '../BackArrow';
 import * as Styles from './styles';
 
 export default function RecipeInProgress({ recipe }) {
@@ -86,6 +87,7 @@ export default function RecipeInProgress({ recipe }) {
 
   return (
     <Styles.RecipeInProgressContainer>
+      <BackArrow />
       <Styles.RecipeImageHeader
         imgUrl={ recipe.strDrinkThumb || recipe.strMealThumb }
         data-testid="recipe-photo"

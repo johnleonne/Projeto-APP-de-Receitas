@@ -34,7 +34,7 @@ export default styled.div`
     border-radius: 5px;
     font-weight: 600;
     color: #fff;
-    background: ${({ theme }) => theme.colors.background.blue};
+    background: ${({ theme }) => theme.colors.background.red};
     opacity: 0;
     transition: all 0.5s ease-in-out;
 

@@ -10,7 +10,7 @@ export default styled.button`
   border-radius: 5px;
   font-weight: 600;
   color: #fff;
-  background: ${({ theme }) => theme.colors.background.blue};
+  background: ${({ theme }) => theme.colors.background.red};
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 
