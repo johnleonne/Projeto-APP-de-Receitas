@@ -13,8 +13,12 @@ export const ProfileContentContainer = styled.section`
   justify-content: center;
   gap: 4rem;
 
-  h3 {
-    font-size: 1.5rem;
+  .user-email {
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-align: center;
+    max-width: 350px;
+    word-break: break-word;
   }
 `;
 

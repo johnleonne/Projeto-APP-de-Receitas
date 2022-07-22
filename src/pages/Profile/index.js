@@ -25,7 +25,7 @@ export default function Profile() {
       <Header title="Profile" />
 
       <Styles.ProfileContentContainer>
-        <h3 data-testid="profile-email">{email}</h3>
+        <p data-testid="profile-email" className="user-email">{email}</p>
 
         <Styles.ProfileButtonsContainer>
           <button
