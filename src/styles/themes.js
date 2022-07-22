@@ -9,7 +9,7 @@ export default {
       light: '#f9b9bd',
     },
     background: {
-      blue: '#FF1717',
+      red: '#FF1717',
       light: '#f6f5fc',
     },
     pinks: {

@@ -4,6 +4,7 @@ import FoodsService from '../../services/FoodsService';
 import RecipeCard from '../../components/RecipeCard';
 import StartRecipeButton from '../../components/StartRecipeButton';
 import RecipeDetailsInteractions from '../../components/RecipeDetailsInteractions';
+import BackArrow from '../../components/BackArrow';
 import * as Styles from './styles';
 
 export default function FoodDetail() {
@@ -64,6 +65,7 @@ export default function FoodDetail() {
   return (
     <Styles.RecipeDetailsPageContainer>
       <Styles.RecipeDetailsContainer>
+        <BackArrow />
 
         <Styles.RecipeImageHeader
           imgUrl={ recipeDetail[0]?.strMealThumb }

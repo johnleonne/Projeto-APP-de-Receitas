@@ -4,6 +4,7 @@ import DrinksService from '../../services/DrinksService';
 import StartRecipeButton from '../../components/StartRecipeButton';
 import RecipeDetailsInteractions from '../../components/RecipeDetailsInteractions';
 import RecipeCard from '../../components/RecipeCard';
+import BackArrow from '../../components/BackArrow';
 import * as Styles from './styles';
 
 export default function DrinkDetail() {
@@ -57,6 +58,7 @@ export default function DrinkDetail() {
   return (
     <Styles.RecipeDetailsPageContainer>
       <Styles.RecipeDetailsContainer>
+        <BackArrow />
 
         <Styles.RecipeImageHeader
           imgUrl={ drinkDetail[0]?.strDrinkThumb }
