@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { FoodsContext } from '../../context/FoodContext';
 import DrinksService from '../../services/DrinksService';
 import Header from '../../components/Header';
@@ -16,17 +15,8 @@ import {
 export default function Drinks() {
   const [drinksCategories, setDrinksCategories] = useState(['All']);
   const { recipes, saveRecipes, category, saveCategory } = useContext(FoodsContext);
-  const history = useHistory();
 
   useEffect(() => {
-    const halfSecond = 500;
-    if (recipes && recipes.length === 1) {
-      const drinkId = recipes[0].idDrink;
-      setTimeout(() => {
-        history.push(`/drinks/${drinkId}`);
-      }, halfSecond);
-    }
-
     if (!recipes) {
       global.alert(`${''}Sorry, we haven't found any recipes for these filters.`);
       saveRecipes([]);
