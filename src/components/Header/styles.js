@@ -27,7 +27,7 @@ export const HeaderIconsContainer = styled.div`
   width: 100%;
 
   h1 {
-    font-size: 30px;
+    font-size: 24px;
     color: #fff;
   }
 

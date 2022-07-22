@@ -20,7 +20,7 @@ export default function Header({ title, haveSearch }) {
         <FaRegUser
           color="#fff"
           role="button"
-          size={ 30 }
+          size={ 20 }
           className="header-icon"
           alt="profile icon"
           data-testid="profile-top-btn"
@@ -32,7 +32,7 @@ export default function Header({ title, haveSearch }) {
             color="#fff"
             role="button"
             className="header-icon"
-            size={ 35 }
+            size={ 30 }
             onClick={ () => setIsSearchInputVisible((prevState) => !prevState) }
             alt="profile icon"
             data-testid="search-top-btn"
