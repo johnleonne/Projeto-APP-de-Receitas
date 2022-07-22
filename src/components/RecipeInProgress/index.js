@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import RecipeDetailsInteractions from '../RecipeDetailsInteractions';
@@ -7,14 +7,7 @@ import * as Styles from './styles';
 
 export default function RecipeInProgress({ recipe }) {
   const history = useHistory();
-
-  function getCheckedIngredientsArray() {
-    const arrayChecked = Array
-      .from(document.querySelectorAll('input[type="checkbox"]:checked'))
-      .map(({ value }) => value);
-
-    return arrayChecked;
-  }
+  const [checkedIngredients, setCheckedIngredients] = useState([]);
 
   useEffect(() => {
     const currProgress = JSON.parse(localStorage.getItem('inProgressRecipes'))
@@ -23,98 +16,72 @@ export default function RecipeInProgress({ recipe }) {
       meals: {},
     };
 
-    const inputs = Array
-      .from(document.querySelectorAll('input[type="checkbox"]'));
+    const isRecipeAlreadyInProgress = currProgress.cocktails[recipe.idDrink]
+      || currProgress.meals[recipe.idMeal];
 
-    inputs.forEach((input) => {
-      if (
-        currProgress.cocktails[recipe.idDrink]?.includes(input.parentNode.innerText)
-        || currProgress.meals[recipe.idMeal]?.includes(input.parentNode.innerText)
-      ) {
-        input.checked = true;
-        input.parentNode.className = 'checked';
-      } else {
-        input.checked = false;
-      }
-    });
-
-    const ingredientsArray = getCheckedIngredientsArray();
-
-    const finishButton = document.querySelector('#finish-recipe-btn');
-
-    function handleFinishRecipes() {
-      const foodType = recipe.idDrink ? 'drinks' : '/foods';
-      const newDoneRecipe = createDoneRecipeObject(recipe, foodType);
-      const doneRecipesLocalStorage = JSON.parse(localStorage
-        .getItem('doneRecipes')) || [];
-      localStorage.setItem('doneRecipes', JSON
-        .stringify([...doneRecipesLocalStorage, newDoneRecipe]));
-      history.push('/done-recipes');
-    }
-
-    finishButton.addEventListener('click', handleFinishRecipes);
-
-    if (ingredientsArray.length === Array.from(inputs).length) {
-      finishButton.disabled = false;
-    } else {
-      finishButton.disabled = true;
+    if (isRecipeAlreadyInProgress) {
+      setCheckedIngredients(isRecipeAlreadyInProgress);
     }
   }, []);
+
+  function handleFinishRecipes() {
+    const foodType = recipe.idDrink ? '/drinks' : '/foods';
+
+    const newDoneRecipe = createDoneRecipeObject(recipe, foodType);
+
+    const doneRecipesLocalStorage = JSON.parse(localStorage
+      .getItem('doneRecipes')) || [];
+    localStorage.setItem('doneRecipes', JSON
+      .stringify([...doneRecipesLocalStorage, newDoneRecipe]));
+
+    history.push('/done-recipes');
+  }
 
   function getIngredientsKeys() {
     return Object.keys(recipe).filter((key) => key.includes('Ingredient'));
   }
 
-  function toggleLabelClass({ target }) {
-    const label = target.parentNode;
-
-    if (label.classList.contains('checked')) {
-      label.classList.remove('checked');
-    } else {
-      label.classList.add('checked');
-    }
+  function getNotNullIngredientsKeys() {
+    return Object.entries(recipe)
+      .filter(([key]) => key.includes('Ingredient'))
+      .filter(([, value]) => value);
   }
 
-  function handleLabelCheck(e) {
+  function handleLabelCheck({ target }) {
     const currProgress = JSON.parse(localStorage.getItem('inProgressRecipes'))
     || {
       cocktails: {},
       meals: {},
     };
 
-    const ingredientsArray = getCheckedIngredientsArray();
-    const allCheckboxInputs = document.querySelectorAll('input[type="checkbox"]');
-
-    const finishButton = document.querySelector('#finish-recipe-btn');
-
-    if (ingredientsArray.length === Array.from(allCheckboxInputs).length) {
-      finishButton.disabled = false;
-    } else {
-      finishButton.disabled = true;
+    if (recipe.idDrink && target.checked) {
+      currProgress.cocktails[recipe.idDrink] = checkedIngredients;
+      setCheckedIngredients((prevState) => [...prevState, target.value]);
     }
 
-    if (recipe.idDrink) {
-      currProgress.cocktails[recipe.idDrink] = Array.from(new Set(ingredientsArray));
-    } else {
-      currProgress.meals[recipe.idMeal] = Array.from(new Set(ingredientsArray));
+    if (recipe.idMeal && target.checked) {
+      currProgress.meals[recipe.idMeal] = checkedIngredients;
+      setCheckedIngredients((prevState) => [...prevState, target.value]);
+    }
+
+    if (recipe.idDrink && !target.checked) {
+      const filteredIngredients = checkedIngredients
+        .filter((ingredient) => ingredient !== target.value);
+
+      currProgress.cocktails[recipe.idDrink] = filteredIngredients;
+      setCheckedIngredients(filteredIngredients);
+    }
+
+    if (recipe.idMeal && !target.checked) {
+      const filteredIngredients = checkedIngredients
+        .filter((ingredient) => ingredient !== target.value);
+
+      currProgress.meals[recipe.idMeal] = filteredIngredients;
+      setCheckedIngredients(filteredIngredients);
     }
 
     localStorage
       .setItem('inProgressRecipes', JSON.stringify(currProgress));
-
-    toggleLabelClass(e);
-  }
-
-  function areAllCheckboxChecked() {
-    const notNullIngredientsLength = Object.entries(recipe)
-      .filter(([key]) => key.includes('Ingredient'))
-      .filter(([, value]) => value)
-      .length;
-
-    const checkedCheckboxesLength = Array
-      .from(document.querySelectorAll('input[type="checkbox"]:checked')).length;
-
-    return notNullIngredientsLength === checkedCheckboxesLength;
   }
 
   return (
@@ -128,46 +95,56 @@ export default function RecipeInProgress({ recipe }) {
         { recipe.strDrink || recipe.strMeal }
       </h1>
 
-      <h3 data-testid="recipe-category">
-        { recipe.strAlcoholic || recipe.strCategory }
+      <h3 data-testid="recipe-category" className="recipe-category">
+        { recipe.strCategory && `Category: ${recipe.strCategory}`}
+        { recipe.strAlcoholic && `Alcoholic: ${recipe.strAlcoholic}` }
       </h3>
 
       <RecipeDetailsInteractions
         recipe={ recipe }
         recipeType={ recipe.strDrink ? 'drinks' : 'foods' }
       />
-      {getIngredientsKeys().map((ingredientKey, index) => {
-        if (!recipe[ingredientKey]) return;
-        return (
-          <Styles.IngredientLabel
-            key={ Math.random() }
-            htmlFor={ ingredientKey }
-            data-testid={ `${index}-ingredient-step` }
-            className={
-              getCheckedIngredientsArray()
-                .includes(recipe[ingredientKey]) ? 'checked' : ''
-            }
-          >
-            <input
-              type="checkbox"
-              id={ ingredientKey }
-              onChange={ (e) => handleLabelCheck(e) }
-              value={ recipe[ingredientKey] }
-              defaultChecked={
-                getCheckedIngredientsArray()
-                  .includes(recipe[ingredientKey])
-              }
-            />
-            { recipe[ingredientKey] }
-          </Styles.IngredientLabel>
-        );
-      })}
-      <p data-testid="instructions">{ recipe.strInstructions }</p>
+
+      <Styles.SeparationLine />
+
+      <Styles.IngredientsCheckboxesContainer>
+        <h3>Ingredients</h3>
+        {getIngredientsKeys().map((ingredientKey, index) => {
+          if (!recipe[ingredientKey]) return;
+          return (
+            <Styles.IngredientLabel
+              isChecked={ checkedIngredients.includes(recipe[ingredientKey]) }
+              key={ Math.random() }
+              htmlFor={ ingredientKey }
+              data-testid={ `${index}-ingredient-step` }
+            >
+              <input
+                type="checkbox"
+                id={ ingredientKey }
+                onChange={ (e) => handleLabelCheck(e) }
+                value={ recipe[ingredientKey] }
+                defaultChecked={ checkedIngredients.includes(recipe[ingredientKey]) }
+              />
+              { recipe[ingredientKey] }
+            </Styles.IngredientLabel>
+          );
+        })}
+      </Styles.IngredientsCheckboxesContainer>
+
+      <Styles.SeparationLine />
+
+      <h2 className="instructions-title">Tutorial</h2>
+
+      <p data-testid="instructions" className="instructions">
+        { recipe.strInstructions }
+      </p>
+
       <button
         type="button"
-        id="finish-recipe-btn"
+        className="finish-recipe-btn"
+        onClick={ () => handleFinishRecipes() }
         data-testid="finish-recipe-btn"
-        disabled={ !areAllCheckboxChecked() }
+        disabled={ getNotNullIngredientsKeys().length !== checkedIngredients.length }
       >
         Finish recipe
       </button>
