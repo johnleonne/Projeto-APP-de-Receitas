@@ -7,7 +7,7 @@ import DrinksService from '../../services/DrinksService';
 import { FoodsContext } from '../../context/FoodContext';
 import { RadiosContainer, SearchBarContainer, SearchInputContainer } from './styles';
 
-export default function SearchBar({ visible }) {
+export default function SearchBar({ visible, hideSearchbar }) {
   const [selectedRadio, setSelectedRadio] = useState(null);
   const [filterTextValue, setFilterTextValue] = useState('');
   const { pathname } = useLocation();
@@ -31,6 +31,8 @@ export default function SearchBar({ visible }) {
       const recipesByFirstLetter = await FoodsService.requestByFirstLetter(searchParam);
       saveRecipes(recipesByFirstLetter);
     }
+
+    hideSearchbar();
   }
 
   async function handleDrinksInputSearchClick() {
@@ -149,6 +151,7 @@ export default function SearchBar({ visible }) {
 
 SearchBar.propTypes = {
   visible: PropTypes.bool,
+  hideSearchbar: PropTypes.func.isRequired,
 };
 
 SearchBar.defaultProps = {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { FaRegUser } from 'react-icons/fa';
 import { BiSearchAlt2 } from 'react-icons/bi';
-import SearchBar from '../SearchBar/SearchBar';
+import SearchBar from '../SearchBar';
 import { HeaderContainer, HeaderIconsContainer } from './styles';
 
 export default function Header({ title, haveSearch }) {
@@ -41,7 +41,10 @@ export default function Header({ title, haveSearch }) {
       </HeaderIconsContainer>
       { haveSearch && (
         <div className="header-input-container">
-          <SearchBar visible={ isSearchInputVisible } />
+          <SearchBar
+            visible={ isSearchInputVisible }
+            hideSearchbar={ () => setIsSearchInputVisible(false) }
+          />
         </div>
       )}
     </HeaderContainer>
