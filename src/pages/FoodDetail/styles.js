@@ -100,6 +100,7 @@ export const SeparationLine = styled.div`
 export const RecommendationsContainer = styled.section`
   margin-top: 3rem;
   max-width: 95%;
+  margin-bottom: 5rem;
 
   .recommendations-title {
     font-size: 2rem;
