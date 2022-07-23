@@ -44,7 +44,7 @@ export const RecipeInProgressContainer = styled.main`
     font-size: 1.5rem;
     font-weight: 600;
     border-style: none;
-    border-radius: 2rem;
+    border-radius: 10px;
     background: ${({ theme }) => theme.colors.main.darker};
     color: #fff;
     transition: all 0.3s ease-in-out;
@@ -83,6 +83,7 @@ export const SeparationLine = styled.div`
 
 export const IngredientsCheckboxesContainer = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
