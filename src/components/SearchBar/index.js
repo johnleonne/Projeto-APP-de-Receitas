@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
-import searchIcon from '../../images/searchIcon.svg';
+import { FaSearch } from 'react-icons/fa';
 import FoodsService from '../../services/FoodsService';
 import DrinksService from '../../services/DrinksService';
 import { FoodsContext } from '../../context/FoodContext';
-import './SearchBar.css';
+import { RadiosContainer, SearchBarContainer, SearchInputContainer } from './styles';
 
-export default function SearchBar() {
+export default function SearchBar({ visible, hideSearchbar }) {
   const [selectedRadio, setSelectedRadio] = useState(null);
   const [filterTextValue, setFilterTextValue] = useState('');
   const { pathname } = useLocation();
@@ -30,6 +31,8 @@ export default function SearchBar() {
       const recipesByFirstLetter = await FoodsService.requestByFirstLetter(searchParam);
       saveRecipes(recipesByFirstLetter);
     }
+
+    hideSearchbar();
   }
 
   async function handleDrinksInputSearchClick() {
@@ -77,32 +80,33 @@ export default function SearchBar() {
   }, [selectedRadio, filterTextValue]);
 
   return (
-    <div className="search-bar-container">
+    <SearchBarContainer visible={ visible }>
 
-      <div className="search-input-container">
-
+      <SearchInputContainer>
         <input
           type="text"
           data-testid="search-input"
           value={ filterTextValue }
           onChange={ handleFilterTextChange }
         />
+        <div className="search-input-icon-container">
+          <FaSearch
+            role="button"
+            className="search-input-icon"
+            size={ 20 }
+            color="#fff"
+            data-testid="exec-search-btn"
+            onClick={
+              pathname === '/foods'
+                ? handleFoodsInputSearchClick
+                : handleDrinksInputSearchClick
+            }
+            alt="search filter button"
+          />
+        </div>
+      </SearchInputContainer>
 
-        <button
-          type="button"
-          data-testid="exec-search-btn"
-          onClick={
-            pathname === '/foods'
-              ? handleFoodsInputSearchClick
-              : handleDrinksInputSearchClick
-          }
-        >
-          <img src={ searchIcon } alt="search filter button" />
-        </button>
-
-      </div>
-
-      <div className="search-radios-container">
+      <RadiosContainer>
 
         <label htmlFor="ingredient">
           <input
@@ -140,7 +144,16 @@ export default function SearchBar() {
           First Letter
         </label>
 
-      </div>
-    </div>
+      </RadiosContainer>
+    </SearchBarContainer>
   );
 }
+
+SearchBar.propTypes = {
+  visible: PropTypes.bool,
+  hideSearchbar: PropTypes.func.isRequired,
+};
+
+SearchBar.defaultProps = {
+  visible: false,
+};

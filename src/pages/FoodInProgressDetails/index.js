@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import FoodsService from '../../services/FoodsService';
-import RecipeInProgress from '../../components/RecipeInProgress/RecipeInProgress';
+import RecipeInProgress from '../../components/RecipeInProgress';
 
 export default function FoodInProgressDetails() {
   const [inProgressMeal, setInProgressMeal] = useState(null);

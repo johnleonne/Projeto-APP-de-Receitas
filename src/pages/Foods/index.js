@@ -1,27 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { FoodsContext } from '../../context/FoodContext';
 import FoodsService from '../../services/FoodsService';
 import Header from '../../components/Header';
-import Footer from '../../components/Footer/Footer';
-import Recipes from '../../components/Recipes/Recipes';
+import Footer from '../../components/Footer';
+import Recipes from '../../components/Recipes';
 import RecipeCard from '../../components/RecipeCard';
 import CategoryButton from '../../components/CategoryButton';
+import { FoodsPageContainer, FoodCardsContainer, FilterButtonsContainer } from './styles';
 
 export default function Foods() {
   const [foodCategories, setFoodCategories] = useState(['All']);
   const { recipes, saveRecipes, category, saveCategory } = useContext(FoodsContext);
-  const history = useHistory();
 
   useEffect(() => {
-    const halfSecond = 500;
-    if (recipes && recipes.length === 1) {
-      const mealId = recipes[0].idMeal;
-      setTimeout(() => {
-        history.push(`/foods/${mealId}`);
-      }, halfSecond);
-    }
-
     if (!recipes) {
       global.alert(`${''}Sorry, we haven't found any recipes for these filters.`);
       saveRecipes([]);
@@ -58,26 +49,25 @@ export default function Foods() {
   }
 
   return (
-    <main className="foods-page-container">
+    <FoodsPageContainer>
       <Header title="Foods" haveSearch />
-      <h1>Foods page</h1>
-      <div className="food-cards-container">
-        <div className="filter-buttons-container">
+      <FoodCardsContainer>
+        <FilterButtonsContainer>
           { foodCategories.map((categoryName) => (
             <CategoryButton key={ categoryName } name={ categoryName } />
           ))}
-        </div>
+        </FilterButtonsContainer>
         <Recipes>
           {!!recipes && filterRecipes(recipes).map((recipe, index) => (
             <RecipeCard
-              key={ recipe.strMeal }
+              key={ Math.random() }
               recipe={ recipe }
               index={ index }
             />
           ))}
         </Recipes>
-      </div>
+      </FoodCardsContainer>
       <Footer />
-    </main>
+    </FoodsPageContainer>
   );
 }

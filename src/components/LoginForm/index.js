@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { SiCodechef } from 'react-icons/si';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import isEmailValid from '../../utils/isEmailValid';
+import { FormContainer, LoginPageContainer } from './styles';
 
 export default function LoginForm() {
   const [userEmail, setUserEmail] = useState('');
@@ -21,13 +23,11 @@ export default function LoginForm() {
 
   function handleEmailInputChange({ target }) {
     const { value } = target;
-
     setUserEmail(value);
   }
 
   function handlePasswordInputChange({ target }) {
     const { value } = target;
-
     setUserPassword(value);
   }
 
@@ -39,21 +39,32 @@ export default function LoginForm() {
   }
 
   return (
-    <form>
-      <input type="text" data-testid="email-input" onChange={ handleEmailInputChange } />
-      <input
-        type="password"
-        data-testid="password-input"
-        onChange={ handlePasswordInputChange }
-      />
-      <button
-        type="button"
-        data-testid="login-submit-btn"
-        disabled={ !isLoginValid() }
-        onClick={ handleLoginButton }
-      >
-        Enter
-      </button>
-    </form>
+    <LoginPageContainer>
+      <FormContainer>
+        <SiCodechef color="#f00" size={ 90 } className="login-chef" />
+        <h1>
+          Code
+          <span>Chef</span>
+        </h1>
+        <input
+          type="text"
+          data-testid="email-input"
+          onChange={ handleEmailInputChange }
+        />
+        <input
+          type="password"
+          data-testid="password-input"
+          onChange={ handlePasswordInputChange }
+        />
+        <button
+          type="button"
+          data-testid="login-submit-btn"
+          disabled={ !isLoginValid() }
+          onClick={ handleLoginButton }
+        >
+          Enter
+        </button>
+      </FormContainer>
+    </LoginPageContainer>
   );
 }

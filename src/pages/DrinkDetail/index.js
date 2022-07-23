@@ -4,7 +4,8 @@ import DrinksService from '../../services/DrinksService';
 import StartRecipeButton from '../../components/StartRecipeButton';
 import RecipeDetailsInteractions from '../../components/RecipeDetailsInteractions';
 import RecipeCard from '../../components/RecipeCard';
-import './DrinkDetail.css';
+import BackArrow from '../../components/BackArrow';
+import * as Styles from './styles';
 
 export default function DrinkDetail() {
   const [drinkDetail, setDrinkDetail] = useState([]);
@@ -55,58 +56,77 @@ export default function DrinkDetail() {
   }, []);
 
   return (
-    <main className="drink-detail-page-container">
-      <h1>Drink detail page</h1>
-      <div className="drink-detail-container">
+    <Styles.RecipeDetailsPageContainer>
+      <Styles.RecipeDetailsContainer>
+        <BackArrow />
 
-        <h3 data-testid="recipe-title">{ drinkDetail[0]?.strDrink }</h3>
-
-        <p data-testid="recipe-category">{drinkDetail[0]?.strAlcoholic }</p>
-
-        <img
-          data-testid="recipe-photo"
-          src={ drinkDetail[0]?.strDrinkThumb }
-          alt={ drinkDetail[0]?.strDrink }
+        <Styles.RecipeImageHeader
+          imgUrl={ drinkDetail[0]?.strDrinkThumb }
         />
+
+        <h1 data-testid="recipe-title">{ drinkDetail[0]?.strDrink }</h1>
+
+        <p data-testid="recipe-category" className="alcoholic">
+          { `Alcoholic: ${drinkDetail[0]?.strAlcoholic ?? ''}` }
+        </p>
 
         <RecipeDetailsInteractions
           recipe={ drinkDetail[0] ?? {} }
           recipeType={ pathname.split('/').filter(Boolean)[0] }
         />
 
-        <div className="ingredients-container">
+        <Styles.RecipeIngredientsContainer>
+          <Styles.SeparationLine />
+          <h3 className="ingredients-title">
+            Ingredients
+          </h3>
           { drinkDetail[0]
           && Object.entries(generateMeasuresObject(drinkDetail[0]))
             .map((ingredientAndMeasure, index) => (
               <p
                 key={ Math.random() }
                 data-testid={ `${index}-ingredient-name-and-measure` }
+                className="ingredient-and-measure"
               >
                 { `${ingredientAndMeasure[1]} ${ingredientAndMeasure[0]}` }
               </p>
             ))}
-        </div>
+          <Styles.SeparationLine />
+        </Styles.RecipeIngredientsContainer>
 
-        <div className="instructions-container">
-          <p data-testid="instructions">{drinkDetail[0]?.strInstructions}</p>
-        </div>
+        <Styles.InstructionsContainer>
+          <h3 className="instructions-title">Instructions</h3>
 
-        <div className="recommendations-container">
-          { recommendedMeals.map((recipe, index) => (
-            <RecipeCard
-              recomendation
-              key={ Math.random() }
-              dataTestId={ `${index}-recomendation-card` }
-              recipe={ recipe }
-              index={ index }
-            />
-          ))}
-        </div>
+          <p data-testid="instructions" className="instructions">
+            {drinkDetail[0]?.strInstructions}
+          </p>
+        </Styles.InstructionsContainer>
+
+        <Styles.SeparationLine />
+
+        <Styles.RecommendationsContainer>
+          <h3 className="recommendations-title">
+            Recommended Meals
+          </h3>
+          <div className="recommendations-scroll">
+            { recommendedMeals.map((recipe, index) => (
+              <RecipeCard
+                recomendation
+                key={ Math.random() }
+                dataTestId={ `${index}-recomendation-card` }
+                recipe={ recipe }
+                index={ index }
+              />
+            ))}
+          </div>
+        </Styles.RecommendationsContainer>
+
         <StartRecipeButton
           recipe={ drinkDetail[0] ?? {} }
           recipeType={ pathname.split('/').filter(Boolean)[0] }
         />
-      </div>
-    </main>
+
+      </Styles.RecipeDetailsContainer>
+    </Styles.RecipeDetailsPageContainer>
   );
 }

@@ -1,27 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { FoodsContext } from '../../context/FoodContext';
 import DrinksService from '../../services/DrinksService';
 import Header from '../../components/Header';
-import Footer from '../../components/Footer/Footer';
-import Recipes from '../../components/Recipes/Recipes';
+import Footer from '../../components/Footer';
+import Recipes from '../../components/Recipes';
 import RecipeCard from '../../components/RecipeCard';
 import CategoryButton from '../../components/CategoryButton';
+import {
+  FilterButtonsContainer,
+  DrinksPageContainer,
+  DrinksCardsContainer,
+} from './styles';
 
 export default function Drinks() {
   const [drinksCategories, setDrinksCategories] = useState(['All']);
   const { recipes, saveRecipes, category, saveCategory } = useContext(FoodsContext);
-  const history = useHistory();
 
   useEffect(() => {
-    const halfSecond = 500;
-    if (recipes && recipes.length === 1) {
-      const drinkId = recipes[0].idDrink;
-      setTimeout(() => {
-        history.push(`/drinks/${drinkId}`);
-      }, halfSecond);
-    }
-
     if (!recipes) {
       global.alert(`${''}Sorry, we haven't found any recipes for these filters.`);
       saveRecipes([]);
@@ -58,26 +53,30 @@ export default function Drinks() {
   }
 
   return (
-    <main className="drinks-page-container">
+    <DrinksPageContainer>
       <Header title="Drinks" haveSearch />
-      <h1>Drinks page</h1>
-      <div className="drinks-cards-container">
-        <div className="filter-buttons-container">
+      <DrinksCardsContainer>
+        <FilterButtonsContainer>
           { drinksCategories.map((categoryName) => (
-            <CategoryButton key={ categoryName } name={ categoryName } />
+            <CategoryButton
+              key={ categoryName }
+              name={
+                categoryName.includes('/') ? categoryName.split('/')[0] : categoryName
+              }
+            />
           ))}
-        </div>
+        </FilterButtonsContainer>
         <Recipes>
           {!!recipes && filterDrinks(recipes).map((recipe, index) => (
             <RecipeCard
-              key={ recipe.strDrink }
+              key={ Math.random() }
               recipe={ recipe }
               index={ index }
             />
           ))}
         </Recipes>
-      </div>
+      </DrinksCardsContainer>
       <Footer />
-    </main>
+    </DrinksPageContainer>
   );
 }
