@@ -10,6 +10,8 @@ export const RecipeInProgressContainer = styled.main`
   h1 {
     font-size: 3rem;
     color: ${({ theme }) => theme.colors.main.dark};
+    text-align: center;
+    margin-bottom: 1rem;
   }
 
   .recipe-category {
