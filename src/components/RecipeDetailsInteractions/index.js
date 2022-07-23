@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clipboardCopy from 'clipboard-copy';
-import { BiShare } from 'react-icons/bi';
+import { BiShareAlt } from 'react-icons/bi';
 import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
 import createFavoriteRecipeObject from '../../utils/createFavoriteRecipeObject';
 import InteractionButtonsContainer from './styles';
@@ -76,7 +76,7 @@ export default function RecipeDetailsInteractions({ recipe, recipeType }) {
 
   return (
     <InteractionButtonsContainer isLinkCopied={ isLinkCopied }>
-      <BiShare
+      <BiShareAlt
         size={ 40 }
         color="#000"
         role="button"
