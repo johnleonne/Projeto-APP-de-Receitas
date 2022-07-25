@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import DrinksService from '../../services/DrinksService';
 import RecipeInProgress from '../../components/RecipeInProgress';
 
@@ -20,8 +21,13 @@ export default function DrinkInProgressDetails() {
   if (!inProgressDrink) return null;
 
   return (
-    <main className="drink-in-progress-details-page-container">
+    <motion.main
+      className="drink-in-progress-details-page-container"
+      initial={{ opacity: 0, width: 0 }}
+      animate={{ opacity: 1, width: '100%' }}
+      exit={{ opacity: 0, x: '100%', transition: { duration: 0.4 } }}
+    >
       <RecipeInProgress recipe={ inProgressDrink[0] } />
-    </main>
+    </motion.main>
   );
 }

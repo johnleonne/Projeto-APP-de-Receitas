@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
+import { motion } from 'framer-motion';
 
-export const DoneRecipesPageContainer = styled.main`
+export const DoneRecipesPageContainer = styled(motion.main)`
   margin-top: 6rem;
 `;
 
