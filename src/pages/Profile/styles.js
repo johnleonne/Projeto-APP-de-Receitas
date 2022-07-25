@@ -1,11 +1,12 @@
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
-export const ProfilePageContainer = styled.main`
+export const ProfilePageContainer = styled(motion.main)`
   width: 100%;
   height: 100%;
 `;
 
-export const ProfileContentContainer = styled.section`
+export const ProfileContentContainer = styled(motion.section)`
   margin-top: 50%;
   display: flex;
   flex-direction: column;

@@ -56,7 +56,11 @@ export default function DrinkDetail() {
   }, []);
 
   return (
-    <Styles.RecipeDetailsPageContainer>
+    <Styles.RecipeDetailsPageContainer
+      initial={{ opacity: 0, width: 0 }}
+      animate={{ opacity: 1, width: '100%' }}
+      exit={{ opacity: 0, x: '100%', transition: { duration: 0.4 } }}
+    >
       <Styles.RecipeDetailsContainer>
         <BackArrow />
 

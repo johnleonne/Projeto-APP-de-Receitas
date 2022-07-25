@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
-export const FoodsPageContainer = styled.main`
+export const FoodsPageContainer = styled(motion.main)`
   margin-top: 6rem;
   display: flex;
   flex-direction: column;

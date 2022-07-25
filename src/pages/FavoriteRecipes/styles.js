@@ -1,6 +1,7 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components'
+import { motion } from 'framer-motion';
 
-export const FavoriteRecipesPageContainer = styled.main`
+export const FavoriteRecipesPageContainer = styled(motion.applymain)`
   margin-top: 6rem;
 `;
 

@@ -98,8 +98,8 @@ export default function RecipeInProgress({ recipe }) {
       </h1>
 
       <h3 data-testid="recipe-category" className="recipe-category">
-        { recipe.strCategory && `Category: ${recipe.strCategory}`}
-        { recipe.strAlcoholic && `Alcoholic: ${recipe.strAlcoholic}` }
+        { recipe.idMeal && `Category: ${recipe.strCategory}`}
+        { recipe.idDrink && `Alcoholic: ${recipe.strAlcoholic}` }
       </h3>
 
       <RecipeDetailsInteractions

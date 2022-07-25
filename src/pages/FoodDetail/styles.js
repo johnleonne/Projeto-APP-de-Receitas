@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
-export const RecipeDetailsPageContainer = styled.main`
+export const RecipeDetailsPageContainer = styled(motion.main)`
   width: 100vw;
   height: 100vh;
 `;

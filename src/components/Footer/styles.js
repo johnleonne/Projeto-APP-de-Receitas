@@ -39,10 +39,10 @@ export const StyledLink = styled(Link)`
 export const FooterContainer = styled.footer`
   align-items: center;
   background: white;
-  bottom: 0;
   display: flex;
   justify-content: space-around;
   position: fixed;
+  bottom: 0;
   height: 3.5rem;
   width: 100%;
   background: ${({ theme }) => theme.colors.main.dark};
