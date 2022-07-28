@@ -15,6 +15,7 @@ export const HeaderContainer = styled.header`
 
   .header-input-container {
     transition: all 0.4s ease-in-out;
+    overflow: hidden;
     height: ${({ isSearchInputVisible }) => (isSearchInputVisible ? '100px' : '0px')};
   }
 `;

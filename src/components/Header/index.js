@@ -8,7 +8,7 @@ import { HeaderContainer, HeaderIconsContainer } from './styles';
 
 export default function Header({ title, haveSearch }) {
   const history = useHistory();
-  const [isSearchInputVisible, setIsSearchInputVisible] = useState(true);
+  const [isSearchInputVisible, setIsSearchInputVisible] = useState(false);
 
   function handleProfileClick() {
     history.push('/profile');
